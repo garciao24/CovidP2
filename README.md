@@ -71,6 +71,6 @@
 ---
 &nbsp;
 # Generalizations
->##IDE Used:
->##Scala Package Used:
->##Visualisation Program: Zeplin
+> ## IDE Used: IntelliJ IDEA 2022.1.2
+> ## Scala Package Used: Winutils
+> ## Visualisation Program: Zeplin
