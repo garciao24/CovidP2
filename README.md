@@ -1,89 +1,49 @@
-# Project Two - placeHolder
+## Project 2
+- Project 2 is a Spark application that processes COVID data and using Zeppelin (or Tableau or other visualization software for graphics and visuals) for showing trends and data analysis.
 
-&nbsp;
+### MVP:
+- Create a Spark Application that processes COVID data
+- Involves some analysis of COVID data using 10 queries
+- Produce one or more .jar files for the analysis. Then run application using spark-submit
+- Find a trend
+- Implement logging (with Spark)
+- use Zeppelin (or Tableau or other visualization software for graphics and visuals) for showing trends and data analysis
+- Implement Agile Scrum methodology for project work
 
-# Scala&nbsp; | &nbsp; Spark&nbsp; | &nbsp; HDFS
+### Stretch Goals:
+- Utilize Apache Airflow for workflow scheduling
 
-## **Description:** Project 2 placeholder 
-&nbsp;
+### Tech Stack:
+- Apache Spark
+- Spark SQL
+- YARN 
+- HDFS and/or S3
+- SBT
+- Scala 2.12 (or 2.13)
+- Git + GitHub
+- Zeppelin (or Tableau or other visualization software)
 
+### Development LifeCycle
+1. Plan
+2. Design
+3. Code
+4. Test
+5. Deploy 
 
+### Project Management:
+- IntelliJ IDEA 2022.1.2
 
-# Collaborators:
+### Generalizations
+- IDE Used: IntelliJ IDEA 2022.1.2
+- Scala Package Used: Winutils
+- Visualization Programs: Apache Zeppelin
 
-> ## Oscar Garcia
-> ## Jordi Icetch
-> ## Joseph Kim
-> ## Thuvarakan Nakarajah
-> ## Edwin Castano
----
-&nbsp;
-
-## Development LifeCycle
-
----
-
-### 1. Plan
-
-### 2. Design
-
-### 3. Code
-
-### 4. Test
-
-### 5. Deploy
-
----
-
-&nbsp;
-
-# Tech Stack:
-
-> ## Scala 2.12 (or 2.13)
-> ## Apache Spark 
-> ## HDFS (Ubuntu)
-> ## Spark SQL
-> ## YARN
-> ## HDFS and/or S3
-> ## SBT
-> ## Git + GitHub
-> ## Zeppelin (or Tableau or other visualization software)
----
-
-&nbsp;
-
-# Packages:
-
-&nbsp;
-
-> ## 
-
----
-
-&nbsp;
-
-# Project Management:
-> ## IntelliJ IDEA 2022.1.2
-&nbsp;
----
-&nbsp;
-# Generalizations
-> ## IDE Used: IntelliJ IDEA 2022.1.2
-> ## Scala Package Used: Winutils
-> ## Visualization Program: Apache Zeppelin
-
----
-&nbsp;
-# MVP
-> ## Loggin Using Spark - Status [Incomplete]
-> ## Visualize Results With Zeppelin - Status [Incomplete]
-
----
-&nbsp;
-# Stretch Goals
-> ## Use Airflow - Status [Incomplete]
-
-
+### Collaborators:
+- Oscar Garcia
+- Jordi Icetch
+- Joseph Kim
+- Thuvarakan Nakarajah
+- Edwin Castano
 
 
 
