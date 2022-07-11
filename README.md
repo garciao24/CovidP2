@@ -1,4 +1,4 @@
-# Project One - Oscar Garcia
+# Project One - placeHolder
 
 &nbsp;
 
@@ -6,6 +6,19 @@
 
 ## **Description:** Project 2 placeholder 
 &nbsp;
+
+
+
+# Collaborators:
+
+> ## Oscar Garcia
+> ## Jordi Icetch
+> ## Joseph Kim
+> ## Thuvarakan Nakarajah
+> ## Edwin Castano
+---
+
+
 
 ## Development LifeCycle
 
