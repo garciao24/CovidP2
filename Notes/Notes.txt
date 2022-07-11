@@ -1,1 +1,4 @@
+Create a Spark Application that processes COVID data.
 
+
+10 queries:
