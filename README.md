@@ -73,4 +73,4 @@
 # Generalizations
 > ## IDE Used: IntelliJ IDEA 2022.1.2
 > ## Scala Package Used: Winutils
-> ## Visualisation Program: Zeplin
+> ## Visualization Program: Apache Zeppelin
