@@ -74,3 +74,20 @@
 > ## IDE Used: IntelliJ IDEA 2022.1.2
 > ## Scala Package Used: Winutils
 > ## Visualization Program: Apache Zeppelin
+
+---
+&nbsp;
+# MVP
+> ## Loggin Using Spark - Status [Incomplete]
+> ## Visualize Results With Zeppelin - Status [Incomplete]
+
+---
+&nbsp;
+# Stretch Goals
+> ## Use Airflow - Status [Incomplete]
+
+
+
+
+
+
