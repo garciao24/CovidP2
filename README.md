@@ -1,4 +1,4 @@
-# Project One - placeHolder
+# Project Two - placeHolder
 
 &nbsp;
 
@@ -17,14 +17,11 @@
 > ## Thuvarakan Nakarajah
 > ## Edwin Castano
 ---
-
-
+&nbsp;
 
 ## Development LifeCycle
 
 ---
-
-&nbsp;
 
 ### 1. Plan
 
