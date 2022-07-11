@@ -7,7 +7,7 @@
 - Produce one or more .jar files for the analysis. Then run application using spark-submit
 - Find a trend
 - Implement logging (with Spark)
-- use Zeppelin (or Tableau or other visualization software for graphics and visuals) for showing trends and data analysis
+- Use Zeppelin (or Tableau or other visualization software for graphics and visuals) for showing trends and data analysis
 - Implement Agile Scrum methodology for project work
 
 ### Stretch Goals:
