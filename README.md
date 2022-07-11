@@ -68,3 +68,9 @@
 # Project Management:
 > ## IntelliJ IDEA 2022.1.2
 &nbsp;
+---
+&nbsp;
+# Generalizations
+>##IDE Used:
+>##Scala Package Used:
+>##Visualisation Program: Zeplin
