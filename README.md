@@ -9,9 +9,12 @@
 - Implement logging (with Spark)
 - Use Zeppelin (or Tableau or other visualization software for graphics and visuals) for showing trends and data analysis
 - Implement Agile Scrum methodology for project work
+- JIra Software for task managment 
 
 ### Stretch Goals:
 - Utilize Apache Airflow for workflow scheduling
+- Exporting results 
+- Encrypting password
 
 ### Tech Stack:
 - Apache Spark
