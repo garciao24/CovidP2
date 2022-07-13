@@ -1,0 +1,14 @@
+[0m[[0m[33mwarn[0m] [0m[0m/mnt/c/Users/wolf1/Documents/Intellij/Project1/src/main/scala/Project1/mysqlDatabase.scala:170:5: A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.[0m
+[0m[[0m[33mwarn[0m] [0m[0m    try {[0m
+[0m[[0m[33mwarn[0m] [0m[0m    ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/mnt/c/Users/wolf1/Documents/Intellij/Project1/src/main/scala/Project1/mysqlDatabase.scala:190:5: A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.[0m
+[0m[[0m[33mwarn[0m] [0m[0m    try {[0m
+[0m[[0m[33mwarn[0m] [0m[0m    ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/mnt/c/Users/wolf1/Documents/Intellij/Project1/src/main/scala/Project1/Main.scala:301:15: comparing values of types Char and String using `==` will always yield false[0m
+[0m[[0m[33mwarn[0m] [0m[0m      if ('y' == input){[0m
+[0m[[0m[33mwarn[0m] [0m[0m              ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/mnt/c/Users/wolf1/Documents/Intellij/Project1/src/main/scala/Project1/Main.scala:304:20: comparing values of types Char and String using `==` will always yield false[0m
+[0m[[0m[33mwarn[0m] [0m[0m      else if ('n' == input){[0m
+[0m[[0m[33mwarn[0m] [0m[0m                   ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m2 deprecations (since 2.13.3); re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0m5 warnings found[0m

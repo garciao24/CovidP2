@@ -1,0 +1,21 @@
+[0m[[0m[0mdebug[0m] [0m[0mPackaging /mnt/c/Users/wolf1/Documents/Intellij/Project1/target/scala-2.13/project1_2.13-0.1.0-SNAPSHOT.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Project1[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /mnt/c/Users/wolf1/Documents/Intellij/Project1/target/scala-2.13/classes/Project1[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Project1/HDFS$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /mnt/c/Users/wolf1/Documents/Intellij/Project1/target/scala-2.13/classes/Project1/HDFS$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Project1/HDFS.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /mnt/c/Users/wolf1/Documents/Intellij/Project1/target/scala-2.13/classes/Project1/HDFS.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Project1/Main$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /mnt/c/Users/wolf1/Documents/Intellij/Project1/target/scala-2.13/classes/Project1/Main$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Project1/Main.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /mnt/c/Users/wolf1/Documents/Intellij/Project1/target/scala-2.13/classes/Project1/Main.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Project1/mysqlDatabase$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /mnt/c/Users/wolf1/Documents/Intellij/Project1/target/scala-2.13/classes/Project1/mysqlDatabase$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Project1/mysqlDatabase.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /mnt/c/Users/wolf1/Documents/Intellij/Project1/target/scala-2.13/classes/Project1/mysqlDatabase.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Project1/Spark$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /mnt/c/Users/wolf1/Documents/Intellij/Project1/target/scala-2.13/classes/Project1/Spark$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Project1/Spark.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /mnt/c/Users/wolf1/Documents/Intellij/Project1/target/scala-2.13/classes/Project1/Spark.class[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone packaging.[0m
