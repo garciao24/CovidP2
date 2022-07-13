@@ -59,6 +59,20 @@ object Login {
   }
 
 
+  def updatePassword(username:String, password: String): Unit = {
+
+    try{
+      spark.sql(f"UPDATE UserInfo SET = '$password' WHERE Username = '$username')")
+    }
+    catch {
+      case e: Exception => e.printStackTrace()
+    }
+
+  }
+
+
+
+
 
 
 
