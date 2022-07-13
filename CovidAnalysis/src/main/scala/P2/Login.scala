@@ -69,15 +69,26 @@ object Login {
   }
 
   def updateUsername(oldusername:String, NewUserName: String): Unit = {
-    try{
+    try {
       spark.sql(f"UPDATE UserInfo SET = '$NewUserName' WHERE Username = '$oldusername')")
     }
     catch {
       case e: Exception => e.printStackTrace()
     }
-
-
-
-
   }
+
+    def updateName(newFirstName: String, newLastName: String,existingUser : String): Unit = {
+      try {
+        spark.sql(f"UPDATE users SET Firstname = '$newFirstName', Lastname = '$newLastName'  WHERE Username = '$existingUser'")
+      }
+      catch {
+        case e: Exception => e.printStackTrace()
+      }
+
+
+    }
+
+
+
+
 }
