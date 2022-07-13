@@ -65,3 +65,4 @@ object P2functions {
     spark.sql(f"SELECT Year, Month, Age, Race, $selection FROM MortalityDatabase WHERE MortalityDatabase.Year='$yearselect'").show(false) //Shows all select columns
   }
 }
+
