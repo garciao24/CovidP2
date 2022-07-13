@@ -125,8 +125,7 @@ object P2queries{
         query5()
       }
       case "6" => {
-        println("Logging out")
-        queryMenu()
+        query6()
       }
       case "7" => {
         query7()
