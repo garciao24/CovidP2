@@ -12,6 +12,8 @@
 
 ### Stretch Goals:
 - Utilize Apache Airflow for workflow scheduling
+- Exporting results 
+- Encripting password
 
 ### Tech Stack:
 - Apache Spark
