@@ -17,6 +17,7 @@ object P2queries{
   print("spark session created")
   spark.sparkContext.setLogLevel("ERROR")
 
+  //used this to test queries
   spark.sql("DROP table IF EXISTS CovConUS")
   spark.sql("create table IF NOT EXISTS CovConUS(UID Int, iso2 String, iso3 String, code3 Int, FIPS Int, " +
     "Admin2 String, Province_State String, Country_Region String, Lat Float, Long_ Float, Combined_Key String, " +
@@ -172,14 +173,14 @@ object P2queries{
   def query5(): Unit = {
     println("Enter your state: ")
     val state = readLine().toLowerCase.capitalize
-    spark.sql(s"SELECT * FROM <tablename with death data> WHERE city = '$state'").show() //need to enter table name
+    spark.sql(s"SELECT * FROM <tablename with death data> WHERE Province_State = '$state'").show() //need to enter table name
     queryMenu()
   }
 
   def query6(): Unit = {
     println("Enter your city name: ")
     val city = readLine().toLowerCase.capitalize
-    spark.sql(s"SELECT * FROM <tablename with death data> WHERE city = '$city'").show() //need to enter table name
+    spark.sql(s"SELECT * FROM <tablename with death data> WHERE Admin2 = '$city'").show() //need to enter table name
     queryMenu()
   }
 
