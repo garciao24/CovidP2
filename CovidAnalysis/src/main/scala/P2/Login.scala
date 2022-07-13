@@ -1,6 +1,6 @@
 package P2
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{DataFrame, Encoders, SparkSession}
 
 import java.sql.SQLException
 
@@ -29,14 +29,34 @@ object Login {
 
     try {
     spark.sql(f"INSERT INTO UserInfo(FirstName,LastName,Username, Password, AdminPriv) VALUES('$FirstName', '$LastName','$Username','$Password','$AdminPriv')")
-    spark.sql("SELECT * FROM UserInfo").show()
+    //spark.sql("SELECT * FROM UserInfo").show()
     }
     catch{
       case e: SQLException => e.printStackTrace()
     }
   }
 
-  //def show
+  def showUsers(): Unit = {
+    spark.sql("SELECT FirstName,LastName,Username FROM UserInfo").show()
+  }
+
+  def checkifExists(usercheck:String):Boolean = {
+    val datalist = spark.sql("SELECT Username From UserInfo")
+    val listOne = datalist.as(Encoders.STRING).collectAsList
+
+    val check = listOne.contains(usercheck)
+
+    if (check) {//user is detected
+      true
+    } else {//User is not detected
+      false
+    }
+//    do {
+//      println("Please enter a username: ")
+//      userinput = scala.io.StdIn.readLine()
+//      bool = listOne.contains(userinput)
+//    }while(!bool)
+  }
 
 
 
