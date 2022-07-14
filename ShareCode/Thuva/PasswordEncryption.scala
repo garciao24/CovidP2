@@ -5,6 +5,6 @@ object PasswordEncryption{
  
   
   def main(args: Array[String]): Unit = {
- println(("This is Hashed PAssword : " + md5Hash("testPassword"  )))
+ println(("This is Hashed Password : " + md5Hash("testPassword"  )))
    }
 }
