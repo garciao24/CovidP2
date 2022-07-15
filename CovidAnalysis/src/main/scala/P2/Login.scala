@@ -4,7 +4,7 @@ import org.apache.spark.sql.{DataFrame, Encoders, SparkSession}
 
 import java.sql.SQLException
 
-object Login {
+object Login {////scrapped leave for reference
   private var bool: Boolean = false
   private var spark: SparkSession = _
   private var userDf: DataFrame = _
