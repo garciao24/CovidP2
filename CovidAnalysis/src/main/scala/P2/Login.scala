@@ -24,22 +24,24 @@ object Login {
     spark.sql("Set hive.exec.dynamic.partition.mode=nonstrict")
 
 
-    spark.sql("DROP table IF EXISTS UserInfo")
-    spark.sql("create table IF NOT EXISTS UserInfo(FirstName String, LastName String, Username String,Password String,AdminPriv Int) row format delimited fields terminated by ','")
-    //spark.sql("LOAD DATA LOCAL INPATH 'userinfo.csv' INTO TABLE UserInfo")
-    spark.sql("SELECT * FROM UserInfo").show()
-    spark.sql("SELECT * FROM UserInfo").printSchema()
+//    spark.sql("DROP table IF EXISTS UserInfo")
+//    spark.sql("create table IF NOT EXISTS UserInfo(FirstName String, LastName String, Username String,Password String,AdminPriv Int) row format delimited fields terminated by ','")
+//    //spark.sql("LOAD DATA LOCAL INPATH 'userinfo.csv' INTO TABLE UserInfo")
+//    spark.sql("SELECT * FROM UserInfo").show()
+//    spark.sql("SELECT * FROM UserInfo").printSchema()
   }
 
 
-  def createUser(FirstName: String, LastName: String, Username: String, Password: String, AdminPriv: Int): Unit = {
+  def createUser(FirstName: String, LastName: String, Username: String, Password: String, AdminPriv: Int): Boolean = {
 
     try {
       spark.sql(f"INSERT INTO UserInfo(FirstName,LastName,Username, Password, AdminPriv) VALUES('$FirstName', '$LastName','$Username','$Password',$AdminPriv)")
       spark.sql("SELECT * FROM UserInfo").show()
+      true
     }
     catch {
       case e: SQLException => e.printStackTrace()
+        false
     }
   }
 
@@ -58,11 +60,6 @@ object Login {
     } else { //User is not detected
       false
     }
-    //    do {
-    //      println("Please enter a username: ")
-    //      userinput = scala.io.StdIn.readLine()
-    //      bool = listOne.contains(userinput)
-    //    }while(!bool)
   }
 
 
@@ -144,4 +141,10 @@ object Login {
     if (!df.isEmpty) {true}
     else {false}
   }
+
+  def close():Unit = {
+    spark.close()
+  }
+
+
 }
