@@ -1,3 +1,4 @@
+
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "2.13.8"
@@ -23,3 +24,4 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "3.2.1" % "provided",
   "org.apache.commons" % "commons-lang3" % "3.12.0")
 
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5"
