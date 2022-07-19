@@ -1,0 +1,39 @@
+Project Plan Query Questions
+
+Overview
+
+cities = ['City_id', 'Province/State' ]
+countries = ['Country_ id', 'Country/Region']
+covid_data = ['SNo', 'ObservationDate', 'Last Update', 'Confirmed', 'Deaths', 'Recovered']
+
+
+-----------------------------------------------------------
+Analytical Queries
+---------------------------------------------------------------------------------------------------------------------
+Spark RDD
+-----------------------------------------------------------
+
+- How many cases were confirmed worldwide during the second quarter of 2020?
+- How many people were recovered worldwide by the last quarter of 2020
+- What are the top 10 cities with number of deaths in the US?
+- What are the top 10 cities with least COVID cases in the US?
+- What were the continent with most covid cases during 2020?
+- What were the continent with most recovered covid cases during 2020?
+
+Spark SQL(Queries)
+---------------------
+Create tables for cities.dat, countries.dat and covid_data.dat: Saving Tables from Spark SQL
+- Show covid confirmed data for the countries
+- Show covid confirmed data for your state
+- Show covid confirmed data for your city
+- Show covid death data for the countries
+- Show covid death data for your state
+- Show covid death data for your city
+- Show covid recovered data for the countries
+----------------------------------------------------------------------------------------------------------------------
+Spark DataFrames(Queries) 
+---------------------
+Prepare covid data: Extracting the ObservationDate', 'Last Update', 'Confirmed', 'Deaths', 'Recovered' from the Text
+prepare cities data: Extracting the 'Province/State'from the text
+prepare countries data: Extracting the 'Country/Region' from the text 
+Prepare cities, countries data: Programmatically specifying a schema for the dataframe
