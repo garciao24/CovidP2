@@ -28,9 +28,4 @@ object userMenu {
     } else
     CreateNewAccount()
   }
-
-
-
-
-
 }
