@@ -6,12 +6,15 @@ import org.apache.spark.sql.functions._
 
 object BasicCleaning {
   private var df: DataFrame = _
+  private var temp: DataFrame = _
  def runOscar():Unit={
 
    //my_logger.info("loading from a file!!!! ")
 
 
    df = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv("C:\\Users\\wolf1\\Desktop\\Provisional_COVID-19_Deaths_by_Sex_and_Age.csv")
+   temp = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv("C:\\Users\\wolf1\\Desktop\\avg_tmp.csv")
+
    session.logger.info("loading from a ---- setting dataframes ")
    session.logger.info("getting all USA Deaths by State")
 
@@ -20,7 +23,15 @@ object BasicCleaning {
    q2()
    session.logger.info("getting deaths per month from 2020 January to present")
    q3()
+
+
+
+
+
+
  }
+
+
 
   def q1():Unit={
 
@@ -57,11 +68,11 @@ object BasicCleaning {
 
     val getConcatenated = udf( (first: String, second: String) => { first + "_" + second } )
     df3 = df3.withColumn("Date", getConcatenated(df3("Year"), df3("Month"))).select("Date", "Total Covid Deaths")
+    val fin = df3.filter(df3("Date") =!= "2022_7").join(temp, df3("Date") === temp("Date_month"), "inner").select("Date","Total Covid Deaths","Avg_temp(F*)")
 
-    df3 = df3.filter(df3("Date") =!= "2022_7")
 
-      file.outputJson("death_by_month",df3)
-      file.outputcsv("death_by_month",df3)
+      file.outputJson("death_by_month",fin)
+      file.outputcsv("death_by_month",fin)
     }
 
 
