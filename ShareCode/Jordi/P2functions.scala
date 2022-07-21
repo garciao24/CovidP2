@@ -60,7 +60,7 @@ object P2functions {
 
   //-------------------------------------------------------------------------------------------------------------------
   def mortalityration()= {
-    //Divide sum of deaths each day by sum of cases each day. (Instead of sum you could do new cases.) New cases vs new deaths.
+    //Divide sum of deaths each day by sum of cases each day to get mortality ratio. (Instead of sum you could do new cases.) New cases vs new deaths.
     println("df1 Query")
     var df = spark.sql("SELECT * FROM CovConUS WHERE ").show()
     println("df2 Query")
@@ -69,15 +69,30 @@ object P2functions {
       "SUM('1/23/2020') OVER(PARTITION BY Province_State ORDER BY Province_State) AS SumColumn, " +
       "SUM('1/23/2020') OVER(PARTITION BY Province_State) AS TotalColumn " +
       "FROM CovConUS")
-      df2.show(100,false)*/
+      df2.show(100,false)
+      */
     println("df3 Query")
-    var df3 = spark.sql("SELECT Province_State, SUM(`6/23/2020`) AS Sumation FROM CovConUS GROUP BY Province_State").show(100,false)
+    var df3 = spark.sql("SELECT Province_State, SUM(`5/1/2021`) AS DatedTotal " +
+      "FROM CovConUS GROUP BY Province_State ORDER BY DatedTotal DESC").show(100,false)
 
     println("df4 Query")
-    var df4 = spark.sql("SELECT Province_State, SUM(`6/23/2020`) AS Sumation FROM CovConUS GROUP BY Province_State").show(100,false)
+    var initialdate = "`5/1/2021`"
+    var finaldate = "`4/30/2021`"
+    var df4 = spark.sql(f"SELECT Province_State, SUM($initialdate)-SUM($finaldate) AS NewCases " + //Difference of two values, can be vars
+      "FROM CovConUS GROUP BY Province_State ORDER BY NewCases DESC").show(100,false)
+
+    println("df5 Query")
+    var df5 = spark.sql("SELECT Province_State, SUM(`3/19/2020`) AS Ratio " + //Sometimes guam has null values for 5/2/2021
+      "FROM CovConUS GROUP BY Province_State ORDER BY Ratio DESC").show(100,false)
+  }
+
+  def customrange() = {
 
   }
 
+  //Subtract values of two given dates.
+
+// Make a string with all column inputs and use scala to remove the inputs you don't want and leave the ones queried.
   mortalityration()
 
 }
