@@ -5,6 +5,7 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.hadoop.io.IOUtils
 import org.apache.spark.sql.DataFrame
 
+
 object file {
 
   def outputJson(name : String,newData:DataFrame): Unit =  {
@@ -41,6 +42,7 @@ object file {
       .save(outputFileName)
     merge(mergeFindGlob, mergedFileName,fileDel)
     newData.unpersist()
+
   }
 
   def merge(srcPath: String, dstPath: String,delPath: String): Unit =  {

@@ -30,3 +30,7 @@ libraryDependencies += "com.typesafe" % "config" % "1.4.2"
 libraryDependencies += "org.apache.logging.log4j" % "log4j-api" % "2.17.2"
 libraryDependencies += "org.apache.logging.log4j" % "log4j-core" % "2.17.2"
 libraryDependencies += "org.apache.logging.log4j" %% "log4j-api-scala" % "12.0"
+
+libraryDependencies += "org.apache.hadoop" % "hadoop-common" % "3.3.2"
+libraryDependencies += "org.apache.commons" % "commons-io" % "1.3.2"
+libraryDependencies += "org.apache.hadoop" % "hadoop-hdfs" % "3.3.2"
