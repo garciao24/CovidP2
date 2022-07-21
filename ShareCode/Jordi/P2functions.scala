@@ -167,14 +167,14 @@ object P2functions {
 
     listofdates.foreach( i => {
 
-      if (x == 0 && i.contains("`4/") && i.contains("2021")){  // Adds first value only.
+      if (x == 0 && i.contains("`4/") && i.contains("21`")){  // Adds first value only.
         println(f"$i Added at start.")
         finalimpstring += f"$i "
         firstiimp = i
         x = 1
       }
 
-      else if (x == 1 && i.contains("`4/") && i.contains("2021")){ // Adds value at the end.
+      else if (x == 1 && i.contains("`4/") && i.contains("21`")){ // Adds value at the end.
         println(f"$i Added at end.")
         finalimpstring = f"$i - $firstiimp"
       }
