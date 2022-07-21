@@ -18,7 +18,7 @@ object P2functions {
   println(Console.GREEN + "Status----------------->Spark Session Created" + Console.RESET)
   spark.sparkContext.setLogLevel("ERROR")
   //-------------------------------------------------------------------------------------------------------------------
-  var listofdates: List[String] = List("`1/22/2020`", "`1/23/2020`", "`1/24/2020`", "`1/25/2020`", "`1/26/2020`", "`1/27/2020`", "`1/28/2020`",
+  val listofdates: List[String] = List("`1/22/2020`", "`1/23/2020`", "`1/24/2020`", "`1/25/2020`", "`1/26/2020`", "`1/27/2020`", "`1/28/2020`",
     "`1/29/2020`", "`1/30/2020`", "`1/31/2020`", "`2/1/2020`", "`2/2/2020`", "`2/3/2020`", "`2/4/2020`",
     "`2/5/2020`", "`2/6/2020`", "`2/7/2020`", "`2/8/2020`", "`2/9/2020`", "`2/10/2020`", "`2/11/2020`",
     "`2/12/2020`", "`2/13/2020`", "`2/14/2020`", "`2/15/2020`", "`2/16/2020`", "`2/17/2020`", "`2/18/2020`",
@@ -86,8 +86,6 @@ object P2functions {
     "`4/11/2021`", "`4/12/2021`", "`4/13/2021`", "`4/14/2021`", "`4/15/2021`", "`4/16/2021`", "`4/17/2021`",
     "`4/18/2021`", "`4/19/2021`", "`4/20/2021`", "`4/21/2021`", "`4/22/2021`", "`4/23/2021`", "`4/24/2021`",
     "`4/25/2021`", "`4/26/2021`", "`4/27/2021`", "`4/28/2021`", "`4/29/2021`", "`4/30/2021`", "`5/1/2021`", "`5/1/2021`")
-
-  var finalimpstring = ""
 
   def connectlink(): Unit ={
     println(Console.GREEN + "Status----------------->Connected" + Console.RESET)
@@ -163,9 +161,34 @@ object P2functions {
       "FROM CovConUS GROUP BY Province_State ORDER BY Ratio DESC").show(100,false)
     var monthimp = "'4/"
 
-    println(monthimp.exists(listofdates.contains(_)))
-
     var finalimpstring = ""
+    var x = 0
+    var firstiimp = ""
+
+    listofdates.foreach( i => {
+
+      if (x == 0 && i.contains("`4/") && i.contains("2021")){  // Adds first value only.
+        println(f"$i Added at start.")
+        finalimpstring += f"$i "
+        firstiimp = i
+        x = 1
+      }
+
+      else if (x == 1 && i.contains("`4/") && i.contains("2021")){ // Adds value at the end.
+        println(f"$i Added at end.")
+        finalimpstring = f"$i - $firstiimp"
+      }
+
+      else{
+        println(f" $i Not Found")
+      }
+
+    })
+    var df7 = spark.sql(f"SELECT Province_State, SUM($finalimpstring) AS Ratio " +
+      "FROM CovConUS GROUP BY Province_State ORDER BY Ratio DESC").show(100,false)
+
+    println(finalimpstring)
+    println(listofdates.length)
   }
 
   customrange()
