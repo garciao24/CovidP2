@@ -73,18 +73,13 @@ object CovidP2Thuva {
     else false
   }
 
-
-
-
-  def StatePopVSDeath(): Unit = {
+  def StatePopulationVSDeath(): Unit = {
     var df = spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("input/time_series_covid_19_deaths_US.csv")
     df = df.withColumnRenamed("Province_state", "USState")
       .withColumnRenamed("5/2/21", "Deaths")
       .withColumn("Population", col("Population").cast("int"))
       .withColumn("Deaths", col("Deaths").cast("int"))
-
     df = df.select("USState", "Population", "Deaths").groupBy("USState").sum("Population", "Deaths").orderBy("USState")
-
     val ListOrder = df.orderBy(desc("sum(Population)"))
     outputcsv("StatePopulationVShDeath.csv",ListOrder )
     df.show(false)
@@ -110,7 +105,7 @@ object CovidP2Thuva {
 
 
   def main(args: Array[String]) {
-    StatePopVSDeath()
+    StatePopulationVSDeath()
 
   }
 
