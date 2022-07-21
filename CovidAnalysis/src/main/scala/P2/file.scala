@@ -7,16 +7,14 @@ import org.apache.spark.sql.DataFrame
 
 object file {
 
-  def output(filename : String,newData:DataFrame): Unit =  {
-
-
+  def outputJson(name : String,newData:DataFrame): Unit =  {
 
     val outputfile = "C:\\outputJson"
-    //var filename = "myinsights.json"
+    var filename = name + ".json"
     var outputFileName = outputfile + "/temp_" + filename
-    var mergedFileName = outputfile + "/merged_" + filename
+    var mergedFileName = outputfile + "/" + filename//merged_
     var mergeFindGlob  = outputFileName
-    var fileDel = outputfile + "/.merged_" + filename + ".crc"
+    var fileDel = outputfile + "/." + filename + ".crc"
 
     newData.write
       .format("org.apache.spark.sql.json")
@@ -25,10 +23,25 @@ object file {
       .save(outputFileName)
     merge(mergeFindGlob, mergedFileName,fileDel)
     newData.unpersist()
-
   }
 
+  def outputcsv(name : String,newData:DataFrame): Unit =  {
 
+    val outputfile = "C:\\outputcsv"
+    var filename = name + ".csv"
+    var outputFileName = outputfile + "/temp_" + filename
+    var mergedFileName = outputfile + "/" + filename//merged_
+    var mergeFindGlob  = outputFileName
+    var fileDel = outputfile + "/." + filename + ".crc"
+
+    newData.write
+      .format("csv")
+      .option("header", "true")
+      .mode("overwrite")
+      .save(outputFileName)
+    merge(mergeFindGlob, mergedFileName,fileDel)
+    newData.unpersist()
+  }
 
   def merge(srcPath: String, dstPath: String,delPath: String): Unit =  {
     val hadoopConfig = new Configuration()
@@ -39,7 +52,6 @@ object file {
   }
 
 
-
   def copyMerge(srcFS: FileSystem, srcDir: Path, dstFS: FileSystem, dstFile: Path, deleteSource: Boolean, conf: Configuration): Boolean = {
 
     if (dstFS.exists(dstFile)) {
@@ -47,10 +59,8 @@ object file {
       /////////////////
       dstFS.delete(dstFile,true)
     }
-
     // Source path is expected to be a directory:
     if (srcFS.getFileStatus(srcDir).isDirectory) {
-
 
       val outputFile = dstFS.create(dstFile)
       try {
@@ -69,12 +79,4 @@ object file {
     }
     else false
   }
-
-
-
-
-
-
-
-
 }
