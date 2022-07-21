@@ -1,5 +1,6 @@
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.apache.log4j.{Level, Logger}
+import org.apache.spark.sql.functions._
 
 //Current path is C:\inputs\inputproject2
 object P2functions {
@@ -58,10 +59,26 @@ object P2functions {
   }
 
   //-------------------------------------------------------------------------------------------------------------------
-  def seetables()= {
-    //println("What column do you wish to see?")
-    var selection = "Neoplasms" //scala.io.StdIn.readLine()
-    var yearselect = "2021" //scala.io.StdIn.readLine()
-    spark.sql(f"SELECT Year, Month, Age, Race, $selection FROM MortalityDatabase WHERE MortalityDatabase.Year='$yearselect'").show(false) //Shows all select columns
+  def mortalityration()= {
+    //Divide sum of deaths each day by sum of cases each day. (Instead of sum you could do new cases.) New cases vs new deaths.
+    println("df1 Query")
+    var df = spark.sql("SELECT * FROM CovConUS WHERE ").show()
+    println("df2 Query")
+    /*
+    var df2 = spark.sql("SELECT Province_State," +
+      "SUM('1/23/2020') OVER(PARTITION BY Province_State ORDER BY Province_State) AS SumColumn, " +
+      "SUM('1/23/2020') OVER(PARTITION BY Province_State) AS TotalColumn " +
+      "FROM CovConUS")
+      df2.show(100,false)*/
+    println("df3 Query")
+    var df3 = spark.sql("SELECT Province_State, SUM(`6/23/2020`) AS Sumation FROM CovConUS GROUP BY Province_State").show(100,false)
+
+    println("df4 Query")
+    var df4 = spark.sql("SELECT Province_State, SUM(`6/23/2020`) AS Sumation FROM CovConUS GROUP BY Province_State").show(100,false)
+
   }
+
+  mortalityration()
+
 }
+
