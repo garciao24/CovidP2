@@ -8,7 +8,9 @@ object Main {
     currentUser = "ogarcia2834"
 
     session.logger.info("test")/////usage of logger example
-    BasicCleaning.runOscar()
+    //BasicCleaning.runOscar()
+
+    Queries.createTablesE()
 
 
 
