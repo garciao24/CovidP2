@@ -70,5 +70,8 @@ object P2tempviews {
     spark.sql("SHOW DATABASES").show()
     spark.sql("SHOW TABLES").show()
 
+    val ColumnNames=df2.columns  // Makes a list of headers/column names.
+    println(ColumnNames.mkString(","))
+
   }
 }

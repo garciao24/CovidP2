@@ -105,14 +105,14 @@ object P2functions {
     spark.sql(f"SELECT Province_State, SUM($finaldate)-SUM($initialdate) AS NewCases " +
       "FROM CovConUS GROUP BY Province_State ORDER BY NewCases DESC").show(100,false)
   }
-  //-----------------------------------------------------------------------------------------------------
-  def totoalatday()= {
+  //----------------------------------------------------------------------------------------------------- Total confirmed in a day.
+  def totalday()= {
     var stringeddate = "`5/2/21`" //scala.io.StdIn.readLine()
     println(f"Total for $stringeddate")
     spark.sql(f"SELECT Province_State, SUM($stringeddate) AS Ratio " +
       "FROM CovConUS GROUP BY Province_State ORDER BY Ratio DESC").show(100,false)
   }
-  //-----------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------- Total new confirmed in a month.
   def monthrange() = {
     var mnth = 4  //scala.io.StdIn.readLine()
     var yr = "21" //scala.io.StdIn.readLine()
@@ -150,14 +150,24 @@ object P2functions {
     //println(listofdates.length)
 
   }
+/*
+  def daily(): Unit ={
+    listofdates.foreach( i+1 =>
+
+    spark.sql(f"SELECT Province_State, SUM($finalimpstring) AS April_Total " +
+      "FROM CovConUS GROUP BY Province_State ORDER BY April_Total DESC").show(100,false)
+
+  }*/
 
   connectlink()
   totalbystates()
   datedchange()
-  totoalatday()
+  totalday()
   monthrange()
+  //dayrange()
 
   spark.sql("SHOW DATABASES").show()
   spark.sql("SHOW TABLES").show()
+
 }
 
