@@ -1,17 +1,12 @@
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.functions.col
-import org.apache.spark.sql.types.IntegerType
-import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, SaveMode, SparkSession}
 
-import org.apache.spark.sql.types.{StructType, StructField, StringType, IntegerType, DoubleType}
-import org.apache.spark.sql.Row
-import java.util.Scanner
 
 
 object Queries{
   def main(args: Array[String]): Unit = {
     System.setProperty("hadoop.home.dir", "C:\\hadoop")
-    val scanner = new Scanner(System.in)
     val spark = SparkSession
       .builder
       .appName("hello hive")
@@ -27,10 +22,6 @@ object Queries{
 
     def createTables(): Unit = {
 
-      import spark.implicits._
-
-//      val dfcovid = spark.read.option("header", true).csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
-//      dfcovid.write.mode(SaveMode.Overwrite).csv("hdfs://localhost:9000/user/hive/warehouse/new_covid_19_data")
       val dfcovidFromFile = spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true")
                 .csv(s"hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
 
@@ -49,22 +40,21 @@ object Queries{
       dfCovid_data.repartition(10).write.mode("overwrite").save("hdfs://localhost:9000/user/hive/warehouse/new_covid_19_data.parquet")
       val parquetfiledf = spark.read.parquet("hdfs://localhost:9000/user/hive/warehouse/new_covid_19_data.parquet")
       parquetfiledf.createOrReplaceTempView("parquet_view")
-      spark.sql("SELECT * FROM parquet_view order by SNo ASC").show(25)
 
       /*Table for Cities*/
       spark.sql("CREATE TABLE IF NOT EXISTS cities AS SELECT SNo, province_state FROM parquet_view")
-      spark.sql("select * from cities order by SNo ASC").show()
+
 
 
        /*Table for Countries*/
       spark.sql("CREATE TABLE IF NOT EXISTS countries AS SELECT SNo, region_country FROM parquet_view")
-      spark.sql("select * from countries order by SNo ASC").show()
+
 
 
         /*Table for covid_data*/
       spark.sql("CREATE TABLE IF NOT EXISTS covid_data AS SELECT SNo, ObservationDate, Last_Update, " +
         "Confirmed, Deaths, Recovered FROM parquet_view")
-      spark.sql("select * from covid_data order by SNo ASC").show()
+
 
     }
 
@@ -95,18 +85,23 @@ object Queries{
       Enter your query here
  */
 
+    spark.sql("SELECT province_state, COUNT(confirmed) AS Total_Cases FROM cities c JOIN covid_data cov ON (c.sno = cov.sno) JOIN countries co " +
+      "ON (c.sno = co.sno) WHERE co.region_country = 'US' GROUP BY province_state " +
+      "HAVING COUNT(confirmed) > 50 ORDER BY Total_Cases ASC LIMIT 10").show()
 
-/*    - What were the continent with most covid cases during 2020?
+    /*    - What are the countries with most covid cases during the pandemic?
+
+          Enter your query here
+     */
+    spark.sql("SELECT region_country, COUNT(confirmed) AS Cases_Confirmed FROM countries co JOIN covid_data cov ON(co.sno = cov.sno) " +
+      "GROUP BY region_country HAVING COUNT(confirmed) > 200 ORDER BY Cases_confirmed DESC").show()
+
+/*    - What are the countries with most recovered covid cases during the pandemic?
 
       Enter your query here
  */
-
-
-/*    - What were the continent with most recovered covid cases during 2020?
-
-      Enter your query here
- */
-
+    spark.sql("SELECT region_country, COUNT(recovered) AS Total_Recovered FROM countries co JOIN covid_data cov ON(co.sno = cov.sno) " +
+      "GROUP BY region_country HAVING COUNT(confirmed) > 200 ORDER BY Total_Recovered DESC").show()
   }
 
 }
