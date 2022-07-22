@@ -54,9 +54,21 @@ object CovidP2Thuva {
       .orderBy(desc("Population"))
 
     df.show(false)
-    FileCreate.outputJson("SampleJson", df)
+    FileCreate.outputJson("USDeathSumByMonth", df)
   }
- 
+
+  def DeathVSRecoverPercentage(): Unit = {
+    val df1 = spark.read.option("header", "true").csv("input/covid_19_data.csv")
+    df1.createOrReplaceTempView("CovidWorld")
+    println("Top 10 Counries which has best Recovery Percentage against Confirmed Cases..")
+    spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Recovered) AS TotalRecovered ,ROUND((SUM(Recovered) * 100 )/SUM(Confirmed))  as RecoverPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  RecoverPercentage DESC").show(10)
+
+    println("_____________________________________________________________________________")
+    println("Top 10 Counries which has worst Death Percentage against Confirmed Cases..")
+
+    spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Deaths) AS TotalDeaths ,ROUND((SUM(Deaths) * 100 )/SUM(Confirmed))  as DeathPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  DeathPercentage DESC").show(10)
+
+  }
 
     System.setProperty("hadoop.home.dir", "C:\\Hadoop") //spark session for windows
     val spark = SparkSession
@@ -70,10 +82,10 @@ object CovidP2Thuva {
     Logger.getLogger("org").setLevel(Level.OFF)
     Logger.getLogger("akka").setLevel(Level.OFF)
     Logger.getLogger("org.apache.spark").setLevel(Level.OFF)
-  
+
   def main(args: Array[String]) {
-    //UsDeathDataByMonth()
-    
+UsDeathDataByMonth()
+    DeathVSRecoverPercentage()
   }
 
   }
