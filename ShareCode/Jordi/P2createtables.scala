@@ -22,8 +22,8 @@ object P2createtables {
 
   // Create table for time_series_covid_19_confirmed_US.csv
   println("Confirmed Cases In US")
-  spark.sql("DROP table IF EXISTS CovConUS")
-  spark.sql("create table IF NOT EXISTS CovConUS(UID Int, iso2 String, iso3 String, code3 Int, FIPS Int, " +
+  spark.sql("DROP table IF EXISTS CovConUS2")
+  /*spark.sql("create table IF NOT EXISTS CovConUS(UID Int, iso2 String, iso3 String, code3 Int, FIPS Int, " +
     "Admin2 String, Province_State String, Country_Region String, Lat Float, Long_ Float, Key1 String, Key2 String, Key3 String," +
     "`1/22/2020` Int, `1/23/2020` Int, `1/24/2020` Int, `1/25/2020` Int, `1/26/2020` Int, `1/27/2020` Int, `1/28/2020` Int, " +
     "`1/29/2020` Int, `1/30/2020` Int, `1/31/2020` Int, `2/1/2020` Int, `2/2/2020` Int, `2/3/2020` Int, `2/4/2020` Int, " +
@@ -96,11 +96,11 @@ object P2createtables {
     "`5/2/2021` Int) row format delimited fields terminated by ','")
   spark.sql("LOAD DATA LOCAL INPATH 'time_series_covid_19_confirmed_US.csv' INTO TABLE CovConUS")
 
-  spark.sql("SELECT * FROM CovConUS").show()
+  spark.sql("SELECT * FROM CovConUS").show()*/
 
   println("Confirmed Deaths In US")
-  spark.sql("DROP table IF EXISTS CovDeathsUS")
-  spark.sql("create table IF NOT EXISTS CovDeathsUS(UID Int, iso2 String, iso3 String, code3 Int, FIPS Int, " +
+  spark.sql("DROP table IF EXISTS CovDeathsUS2")
+  /*spark.sql("create table IF NOT EXISTS CovDeathsUS(UID Int, iso2 String, iso3 String, code3 Int, FIPS Int, " +
     "Admin2 String, Province_State String, Country_Region String, Lat Float, Long_ Float, Key1 String, Key2 String, Key3 String, Population Int, " +
     "`1/22/2020` Int, `1/23/2020` Int, `1/24/2020` Int, `1/25/2020` Int, `1/26/2020` Int, `1/27/2020` Int, `1/28/2020` Int, " +
     "`1/29/2020` Int, `1/30/2020` Int, `1/31/2020` Int, `2/1/2020` Int, `2/2/2020` Int, `2/3/2020` Int, `2/4/2020` Int, " +
@@ -173,13 +173,13 @@ object P2createtables {
     "`5/2/2021` Int) row format delimited fields terminated by ','")
   spark.sql("LOAD DATA LOCAL INPATH 'time_series_covid_19_deaths_US.csv' INTO TABLE CovDeathsUS")
 
-  spark.sql("SELECT * FROM CovDeathsUS").show()
+  spark.sql("SELECT * FROM CovDeathsUS").show()*/
 
 
 
   println("Confirmed Cases Worldwide")
-  spark.sql("DROP table IF EXISTS CovCon")
-  spark.sql("create table IF NOT EXISTS CovCon(Province String, Country String, Lat Float, Long Float, " +
+  spark.sql("DROP table IF EXISTS CovCon2")
+  /*spark.sql("create table IF NOT EXISTS CovCon(Province String, Country String, Lat Float, Long Float, " +
     "`1/22/2020` Int, `1/23/2020` Int, `1/24/2020` Int, `1/25/2020` Int, `1/26/2020` Int, `1/27/2020` Int, `1/28/2020` Int, " +
     "`1/29/2020` Int, `1/30/2020` Int, `1/31/2020` Int, `2/1/2020` Int, `2/2/2020` Int, `2/3/2020` Int, `2/4/2020` Int, " +
     "`2/5/2020` Int, `2/6/2020` Int, `2/7/2020` Int, `2/8/2020` Int, `2/9/2020` Int, `2/10/2020` Int, `2/11/2020` Int, " +
@@ -251,11 +251,11 @@ object P2createtables {
     "`5/2/2021` Int) row format delimited fields terminated by ','")
   spark.sql("LOAD DATA LOCAL INPATH 'time_series_covid_19_confirmed.csv' INTO TABLE CovCon")
 
-  spark.sql("SELECT * FROM CovCon").show()
+  spark.sql("SELECT * FROM CovCon").show()*/
 
   println("Confirmed Deaths Worldwide")
-  spark.sql("DROP table IF EXISTS CovDeaths")
-  spark.sql("create table IF NOT EXISTS CovDeaths(Province String, Country String, Lat Float, Long Float, " +
+  spark.sql("DROP table IF EXISTS CovDeaths2")
+  /*spark.sql("create table IF NOT EXISTS CovDeaths(Province String, Country String, Lat Float, Long Float, " +
     "`1/22/2020` Int, `1/23/2020` Int, `1/24/2020` Int, `1/25/2020` Int, `1/26/2020` Int, `1/27/2020` Int, `1/28/2020` Int, " +
     "`1/29/2020` Int, `1/30/2020` Int, `1/31/2020` Int, `2/1/2020` Int, `2/2/2020` Int, `2/3/2020` Int, `2/4/2020` Int, " +
     "`2/5/2020` Int, `2/6/2020` Int, `2/7/2020` Int, `2/8/2020` Int, `2/9/2020` Int, `2/10/2020` Int, `2/11/2020` Int, " +
@@ -327,15 +327,15 @@ object P2createtables {
     "`5/2/2021` Int) row format delimited fields terminated by ','")
   spark.sql("LOAD DATA LOCAL INPATH 'time_series_covid_19_deaths.csv' INTO TABLE CovDeaths")
 
-  spark.sql("SELECT * FROM CovDeaths").show()
+  spark.sql("SELECT * FROM CovDeaths").show()*/
 
   println("General Data Worldwide")
-  spark.sql("DROP table IF EXISTS CovData")
-  spark.sql("create table IF NOT EXISTS CovData(SNo Int, Observed String, Province String, Country String, " +
+  spark.sql("DROP table IF EXISTS CovData2")
+  /*spark.sql("create table IF NOT EXISTS CovData(SNo Int, Observed String, Province String, Country String, " +
     "Updated String, Confirmed Int, Deaths Int, Recovered Int) row format delimited fields terminated by ','")
   spark.sql("LOAD DATA LOCAL INPATH 'covid_19_data.csv' INTO TABLE CovData")
 
-  spark.sql("SELECT * FROM CovData").show()
+  spark.sql("SELECT * FROM CovData").show()*/
 
 
 }

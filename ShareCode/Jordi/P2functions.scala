@@ -17,7 +17,7 @@ object P2functions {
   Logger.getLogger("org").setLevel(Level.ERROR)
   println(Console.GREEN + "Status----------------->Spark Session Created" + Console.RESET)
   spark.sparkContext.setLogLevel("ERROR")
-  //-------------------------------------------------------------------------------------------------------------------
+  //======================================================================================================== Val for filtering.
   val listofdates: List[String] = List("`1/22/20`", "`1/23/20`", "`1/24/20`", "`1/25/20`", "`1/26/20`", "`1/27/20`", "`1/28/20`",
     "`1/29/20`", "`1/30/20`", "`1/31/20`", "`2/1/20`", "`2/2/20`", "`2/3/20`", "`2/4/20`",
     "`2/5/20`", "`2/6/20`", "`2/7/20`", "`2/8/20`", "`2/9/20`", "`2/10/20`", "`2/11/20`",
@@ -85,117 +85,79 @@ object P2functions {
     "`4/4/21`", "`4/5/21`", "`4/6/21`", "`4/7/21`", "`4/8/21`", "`4/9/21`", "`4/10/21`",
     "`4/11/21`", "`4/12/21`", "`4/13/21`", "`4/14/21`", "`4/15/21`", "`4/16/21`", "`4/17/21`",
     "`4/18/21`", "`4/19/21`", "`4/20/21`", "`4/21/21`", "`4/22/21`", "`4/23/21`", "`4/24/21`",
-    "`4/25/21`", "`4/26/21`", "`4/27/21`", "`4/28/21`", "`4/29/21`", "`4/30/21`", "`5/1/21`", "`5/1/21`")
-
+    "`4/25/21`", "`4/26/21`", "`4/27/21`", "`4/28/21`", "`4/29/21`", "`4/30/21`", "`5/1/21`", "`5/2/21`")
+  //----------------------------------------------------------------------------------------------------- Connects to file.
   def connectlink(): Unit ={
     println(Console.GREEN + "Status----------------->Connected" + Console.RESET)
   }
-  //-------------------------------------------------------------------------------------------------------------------
-  def passwordmanagement(currentselect: String) ={//Extract password based on given username
-    var extractpass = spark.sql(s"SELECT Password FROM UserInfo WHERE UserInfo.Username = '$currentselect'").first()
-
-    var currentpass = extractpass(0)
-
-    println("What is your password?")
-    var askpass = scala.io.StdIn.readLine()
-
-    if(currentpass == askpass ){
-      println("Successfully Logged In")
-      "Correct"
-    }
-    else{
-      println("Wrong Password")
-      "Wrong"}
-  }
-
-  def insertvalue(): Unit ={
-    println("What Username Do You Wish To Add?")
-    var usernameadding = scala.io.StdIn.readLine()
-    println("What Is The New Password?")
-    var passwordadding = scala.io.StdIn.readLine()
-    spark.sql(f"INSERT INTO UserInfo(Username, Password) VALUES('$usernameadding', '$passwordadding')")
-    spark.sql("SELECT * FROM UserInfo").show()
-  }
-
-  def resetvalues(): Unit ={
-    println("What Username Do You Want To Delete?")
-    var usernamedelete = scala.io.StdIn.readLine()
-    spark.sql("DROP table IF EXISTS UserInfo")
-    spark.sql("create table IF NOT EXISTS UserInfo(Username String, Password String) row format delimited fields terminated by ','")
-    spark.sql("LOAD DATA LOCAL INPATH 'userinfo.csv' INTO TABLE UserInfo")
-    spark.sql("SELECT * FROM UserInfo").show()
-  }
-
-  //===================================================================================================================
+  //----------------------------------------------------------------------------------------------------- Total confirmed by state.
   def totalbystates()={
-    println("Final Data Query")
-    var df3 = spark.sql("SELECT Province_State, SUM(`5/1/21`) AS DatedTotal " +
+    println("Total confirmed by state.")
+    spark.sql("SELECT Province_State, SUM(`5/1/21`) AS DatedTotal " +
       "FROM CovConUS GROUP BY Province_State ORDER BY DatedTotal DESC").show(100,false)
   }
-  //-------------------------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------- Input two dates get new cases.
   def datedchange()={
-    println("New cases based on changes for that date range.")
-    var initialdate = "`4/30/21`"
-    var finaldate = "`5/1/21`"
+    var initialdate = "`4/30/21`" //scala.io.StdIn.readLine()
+    var finaldate = "`5/1/21`"  //scala.io.StdIn.readLine()
+    println(f"New cases based on new cases from $initialdate to $finaldate")
 
-    var df4 = spark.sql(f"SELECT Province_State, SUM($finaldate)-SUM($initialdate) AS NewCases " + //Difference of two values, can be vars
+    spark.sql(f"SELECT Province_State, SUM($finaldate)-SUM($initialdate) AS NewCases " +
       "FROM CovConUS GROUP BY Province_State ORDER BY NewCases DESC").show(100,false)
   }
-  //-------------------------------------------------------------------------------------------------------------------
-  def mortalityration()= {
-    //Divide sum of deaths each day by sum of cases each day to get mortality ratio. (Instead of sum you could do new cases.) New cases vs new deaths.
-
-    println("df5 Query")
-    var df5 = spark.sql("SELECT Province_State, SUM(`5/2/21`) AS Ratio " + //Sometimes guam has null values for 5/2/21
+  //-----------------------------------------------------------------------------------------------------
+  def totoalatday()= {
+    var stringeddate = "`5/2/21`" //scala.io.StdIn.readLine()
+    println(f"Total for $stringeddate")
+    spark.sql(f"SELECT Province_State, SUM($stringeddate) AS Ratio " +
       "FROM CovConUS GROUP BY Province_State ORDER BY Ratio DESC").show(100,false)
   }
-  //-------------------------------------------------------------------------------------------------------------------
-  def customrange() = {
-    //Subtract values of two given dates.
-    // Make a string with all column inputs and use scala to remove the inputs you don't want and leave the ones queried.
-    println("df6 Query")
-
-    var stringeddate = "`3/19/20`"
-
-    var df6 = spark.sql(f"SELECT Province_State, SUM($stringeddate) AS Ratio " +
-      "FROM CovConUS2 GROUP BY Province_State ORDER BY Ratio DESC").show(100,false)
-    var monthimp = "'4/"
-
+  //-----------------------------------------------------------------------------------------------------
+  def monthrange() = {
+    var mnth = 4  //scala.io.StdIn.readLine()
+    var yr = "21" //scala.io.StdIn.readLine()
+    var monthimp = f"'$mnth/"
+    var yearimp = f"$yr`"
     var finalimpstring = ""
     var x = 0
     var firstiimp = ""
 
+    println(s"Monthly Deaths for $monthimp" + f"th month of 20$yearimp")
+
     listofdates.foreach( i => {
 
       if (x == 0 && i.contains("`4/") && i.contains("21`")){  // Adds first value only.
-        println(f"$i Added at start.")
+        //println(f"$i Added at start.")
         finalimpstring += f"$i "
         firstiimp = i
         x = 1
       }
 
       else if (x == 1 && i.contains("`4/") && i.contains("/21`")){ // Adds value at the end.
-        println(f"$i Added at end.")
+        //println(f"$i Added at end.")
         finalimpstring = f"$i - $firstiimp"
       }
 
       else{
-        println(f" $i Not Found")
+        //println(f" $i Not Found")
       }
 
     })
-    var df7 = spark.sql(f"SELECT Province_State, SUM($finalimpstring) AS April_Total " +
-      "FROM CovConUS2 GROUP BY Province_State ORDER BY April_Total DESC").show(100,false)
+    spark.sql(f"SELECT Province_State, SUM($finalimpstring) AS April_Total " +
+      "FROM CovConUS GROUP BY Province_State ORDER BY April_Total DESC").show(100,false)
 
-    println(finalimpstring)
-    println(listofdates.length)
+    //println(finalimpstring)
+    //println(listofdates.length)
 
-    spark.sql("SHOW DATABASES").show()
-    spark.sql("SHOW TABLES").show()
   }
 
-  customrange()
+  connectlink()
+  totalbystates()
+  datedchange()
+  totoalatday()
+  monthrange()
 
-
+  spark.sql("SHOW DATABASES").show()
+  spark.sql("SHOW TABLES").show()
 }
 
