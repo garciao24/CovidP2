@@ -69,7 +69,26 @@ object CovidP2Thuva {
     spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Deaths) AS TotalDeaths ,ROUND((SUM(Deaths) * 100 )/SUM(Confirmed))  as DeathPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  DeathPercentage DESC").show(10)
 
   }
+  def AverageDeathVSPopulation(): Unit =
+  {
 
+    var df = spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("input/time_series_covid_19_deaths_US.csv")
+     df = df.withColumnRenamed("Admin2", "County")
+      .withColumnRenamed("Province_state", "USState")
+      .withColumnRenamed("5/2/21", "Deaths")
+      .withColumn("Population", col("Population").cast("int"))
+      .withColumn("Deaths", col("Deaths").cast("int"))
+    df = df.select("USState","Population","Deaths")
+      .orderBy("Deaths")
+     df = df.groupBy(col("USState"))
+      .sum("Population", "Deaths")
+    df = df.withColumn("Divide", col("sum(Deaths)")/col("sum(Population)"))
+      .withColumn(  "PercentageOfDeath",round(col("Divide") * 100,2 ))
+      .drop("divide")
+
+  df.orderBy(desc("PercentageOfDeath")).show()
+    FileCreate.outputJson("AverageDeathVSPopulation",df.limit(50))
+    }
     System.setProperty("hadoop.home.dir", "C:\\Hadoop") //spark session for windows
     val spark = SparkSession
       .builder
