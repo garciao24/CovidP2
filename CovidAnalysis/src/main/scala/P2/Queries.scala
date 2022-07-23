@@ -1,6 +1,7 @@
 package P2
 
 import P2.Main.session
+import P2.P2tempviews.df6
 import org.apache.spark.sql.functions.col
 
 
@@ -10,12 +11,13 @@ object Queries{
 
     def createTablesE(): Unit = {
 
-      val dfcovidFromFile = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true")
-        .csv(s"hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
 
-      dfcovidFromFile.createOrReplaceTempView("cd")
+//      val dfcovidFromFile = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true")
+//        .csv(s"hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
 
-      val dfCovid_data=(dfcovidFromFile.withColumnRenamed("Country/Region", "region_country")
+      df6.createOrReplaceTempView("cd")
+
+      val dfCovid_data=(df6.withColumnRenamed("Country/Region", "region_country")
         .withColumnRenamed("Province/State", "province_state")
         .withColumnRenamed("Last Update", "Last_Update")
         .withColumn("Confirmed", col("Confirmed").cast("int"))

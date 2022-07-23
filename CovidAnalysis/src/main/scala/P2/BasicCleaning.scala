@@ -1,36 +1,32 @@
 package P2
 //import P2.Main.my_logger
-import P2.Main.{currentUser, session}
+import P2.Main.session
+import P2.P2tempviews.{df1, df5}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
+
 
 object BasicCleaning {
   private var df: DataFrame = _
   private var temp: DataFrame = _
-  private var test: DataFrame = _
-  private var test2: DataFrame = _
-  private var test3: DataFrame = _
- def runOscar():Unit={
 
-   df = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"hdfs://localhost:9000/user/$currentUser/covidData/Provisional_COVID-19_Deaths_by_Sex_and_Age.csv")
-   temp = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"hdfs://localhost:9000/user/$currentUser/covidData/avg_tmp.csv")
-   test = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"hdfs://localhost:9000/user/$currentUser/covidData/covid_19_data.csv")
-   test2 = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"hdfs://localhost:9000/user/$currentUser/covidData/time_series_covid_19_confirmed.csv")
+  def runOscar():Unit={
 
-   test3 = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"hdfs://localhost:9000/user/$currentUser/covidData/time_series_covid_19_recovered.csv")
+   df = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"hdfs://localhost:9000/user/hive/warehouse/Provisional_COVID-19_Deaths_by_Sex_and_Age.csv")
+   temp = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"hdfs://localhost:9000/user/hive/warehouse/avg_tmp.csv")
 
    session.logger.info("loading from a ---- setting dataframes ")
    session.logger.info("getting all USA Deaths by State")
 
 
 
-   //q1()
+   q1()
    session.logger.info("getting deaths by age group")
-   //q2()
+   q2()
    session.logger.info("getting deaths per month from 2020 January to present")
-   //q3()
+   q3()
 
-   q4()
+   //q4()
  }
 
   def q1():Unit={
@@ -108,18 +104,24 @@ object BasicCleaning {
 
 
 
-    val yy = test2.groupBy("Country/Region").sum().withColumnRenamed("sum(5/2/21)","Confirmed").select("Country/Region","Confirmed")
+    val yy = df1.groupBy("Country/Region").sum().withColumnRenamed("sum(5/2/21)","Confirmed").select("Country/Region","Confirmed")
 
     yy.show()
     file.outputJson("contries_Confirmed",yy)
-
-
-
-    val dd = test3.groupBy("Country/Region").sum().withColumnRenamed("sum(5/2/21)","Recovered").select("Country/Region","Recovered")
+//
+//
+//
+    val dd = df5.groupBy("Country/Region").sum().withColumnRenamed("sum(5/2/21)","Recovered").select("Country/Region","Recovered")
 
     dd.show()
     file.outputJson("contries_Recovered",dd)
 
+
+
+
+
+//    val ColumnNames=df2.columns
+//    println(ColumnNames.mkString(","))
 
 
 
