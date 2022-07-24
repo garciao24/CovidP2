@@ -18,7 +18,7 @@ object P2functions {
   }
   //----------------------------------------------------------------------------------------------------- Total confirmed by state.
   def totalbystates(v1:Boolean,v2:Boolean)={
-    println("Total confirmed by state.")
+    session.logger.info("Total confirmed by state.")
     export1 = session.spark.sql("SELECT Province_State, SUM(`5/1/21`) AS DatedTotal " +
       "FROM CovConUS GROUP BY Province_State ORDER BY DatedTotal DESC")//.show(10000,false)
 
@@ -34,7 +34,7 @@ object P2functions {
   def datedchange()={
     var initialdate = "`4/30/21`" //scala.io.StdIn.readLine()
     var finaldate = "`5/1/21`"  //scala.io.StdIn.readLine()
-    println(f"New cases based on new cases from $initialdate to $finaldate")
+    session.logger.info(f"New cases based on new cases from $initialdate to $finaldate")
 
     session.spark.sql(f"SELECT Province_State, SUM($finaldate)-SUM($initialdate) AS NewCases " +
       "FROM CovConUS GROUP BY Province_State ORDER BY NewCases DESC").show(10000,false)
@@ -63,7 +63,7 @@ object P2functions {
     var Columnstring = ColumnNames.mkString("`", "`,`", "`")
     var Columnlist = Columnstring.split(",")
 
-    println(s"Monthly Deaths for $monthimp" + f"th month of 20$yearimp")
+    session.logger.info(s"Monthly Deaths for $monthimp" + f"th month of 20$yearimp")
 
     Columnlist.foreach( i => {
 
@@ -123,7 +123,7 @@ object P2functions {
       //(finalimpstring)
 
     }
-    println("Daily Deaths From Covid Worldwide")
+    session.logger.info("Daily Deaths From Covid Worldwide")
     export3 = session.spark.sql(f"SELECT `Country/Region`, $finalimpstring " +
       "FROM CovDeaths GROUP BY `Country/Region` ORDER BY `Country/Region` DESC")//.show(10000,false)
 
