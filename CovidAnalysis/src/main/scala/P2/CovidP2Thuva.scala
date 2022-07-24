@@ -5,6 +5,10 @@ import P2.P2tempviews.df4
 import org.apache.spark.sql.functions.{col, desc, round}
 
 object CovidP2Thuva {
+  // 1. Total Death count of USA states by Month wise - UsDeathDataByMonth()
+  // 2. Find best 10 recovery rates countries and worst 10 Death rates countries  - DeathVSRecoverPercentage()
+  // 3. Which top 20 dates Recorded highest Confirmed ccases -  TopDays()
+  
   def UsDeathDataByMonth(): Unit = {
     val MonthDayCount = Array(0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
     println("Loading Sum of  Covid Death Data By Month wise ...........")
@@ -99,7 +103,6 @@ object CovidP2Thuva {
   def run():Unit = {
     UsDeathDataByMonth()
     DeathVSRecoverPercentage()
-
     TopDays()
 
   }
