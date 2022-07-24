@@ -1,6 +1,7 @@
 import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.DataFrame
 
 //Current path is C:\inputs\inputproject2
 object P2functions {
@@ -17,6 +18,11 @@ object P2functions {
   Logger.getLogger("org").setLevel(Level.ERROR)
   println(Console.GREEN + "Status----------------->Spark Session Created" + Console.RESET)
   spark.sparkContext.setLogLevel("ERROR")
+
+  var export1: DataFrame = _
+  var export2: DataFrame = _
+  var export3: DataFrame = _
+
   //===================================================================================================== Connects to file.
   def connectlink(): Unit ={
     println(Console.GREEN + "Status----------------->Connected" + Console.RESET)
@@ -24,8 +30,8 @@ object P2functions {
   //----------------------------------------------------------------------------------------------------- Total confirmed by state.
   def totalbystates()={
     println("Total confirmed by state.")
-    spark.sql("SELECT Province_State, SUM(`5/1/21`) AS DatedTotal " +
-      "FROM CovConUS GROUP BY Province_State ORDER BY DatedTotal DESC").show(10000,false)
+    export1 = spark.sql("SELECT Province_State, SUM(`5/1/21`) AS DatedTotal " +
+      "FROM CovConUS GROUP BY Province_State ORDER BY DatedTotal DESC")//.show(10000,false)
   }
   //----------------------------------------------------------------------------------------------------- Input two dates get new cases.
   def datedchange()={
@@ -81,8 +87,8 @@ object P2functions {
       }
 
     })
-    spark.sql(f"SELECT Province_State, SUM($finalimpstring) AS April_Total " +
-      "FROM CovConUS GROUP BY Province_State ORDER BY April_Total DESC").show(10000,false)
+    export2 = spark.sql(f"SELECT Province_State, SUM($finalimpstring) AS April_Total " +
+      "FROM CovConUS GROUP BY Province_State ORDER BY April_Total DESC")//.show(10000,false)
 
     //println(finalimpstring)
     //println(listofdates.length)
@@ -113,8 +119,8 @@ object P2functions {
 
     }
     println("Daily Deaths From Covid Worldwide")
-    spark.sql(f"SELECT `Country/Region`, $finalimpstring " +
-      "FROM CovDeaths GROUP BY `Country/Region` ORDER BY `Country/Region` DESC").show(10000,false)
+    export3 = spark.sql(f"SELECT `Country/Region`, $finalimpstring " +
+      "FROM CovDeaths GROUP BY `Country/Region` ORDER BY `Country/Region` DESC")//.show(10000,false)
 
   }
 
@@ -123,11 +129,21 @@ object P2functions {
   //totalday()
 
   totalbystates() //<------------------ This one for Project 2
+  file.outputJson("TotalUSStateCases",export1)
+  file.outputcsv("TotalUSStateCases",export1)
+
   monthrange() //<------------------ This one for Project 2
+  file.outputJson("SpecificMonthCasesByState",export2)
+  file.outputcsv("SpecificMonthCasesByState",export2)
+
   daily() //<------------------ This one for Project 2
+  file.outputJson("DailyNewDeathsByCountry",export3)
+  file.outputcsv("DailyNewDeathsByCountry",export3)
+
 
   spark.sql("SHOW DATABASES").show()
   spark.sql("SHOW TABLES").show()
+
 
 }
 
