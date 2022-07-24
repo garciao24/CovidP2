@@ -37,12 +37,12 @@ object P2tempviews {
     spark.sql("SELECT * FROM CovDeathsUSImp;").show()
 
     val df5 = spark.read.format("csv").option("header","true").load("hdfs://localhost:9000/user/hive/warehouse/Project2/time_series_covid_19_recovered.csv")
-    df3.createOrReplaceTempView("CovRecImp")
+    df5.createOrReplaceTempView("CovRecImp")
 
     spark.sql("SELECT * FROM CovRecImp;").show()
 
     val df6 = spark.read.format("csv").option("header","true").load("hdfs://localhost:9000/user/hive/warehouse/Project2/covid_19_data.csv")
-    df4.createOrReplaceTempView("CovRecImp")
+    df6.createOrReplaceTempView("CovDataImp")
 
     spark.sql("SELECT * FROM CovDeathsUSImp;").show()
 
