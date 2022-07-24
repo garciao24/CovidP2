@@ -72,17 +72,14 @@ object Main {
     println("[19] Total for 5/2/21 \n")
     println("[20] Month range\n")
     //////////////Edwin
-    println("[21] How many cases were confirmed worldwide during the second quarter of 2020?\n")
-    println("[22] How many people were recovered worldwide by the last quarter of 2020\n")
-    println("[23] What are the top 10 cities with number of deaths in the US?\n")
-    println("[24] What are the top 10 cities with least COVID cases in the US?\n")
-    println("[25] What are the countries with most covid cases during the pandemic?\n")
-    println("[26] What are the countries with most recovered covid cases during the pandemic?\n")
+    println("[21] How many people were recovered worldwide by the last quarter of 2020\n")
+    println("[22] What are the top 10 cities with number of deaths in the US?\n")
+    println("[23] What are the countries with most recovered covid cases during the pandemic?\n")
     //////Oscar
-    println("[27] Getting all USA Deaths by State\n")
-    println("[28] Getting deaths by age group\n")
-    println("[29] getting deaths per month from 2020 January to present\n")
-    println("[30] Logout\n")
+    println("[24] Getting all USA Deaths by State\n")
+    println("[25] Getting deaths by age group\n")
+    println("[26] getting deaths per month from 2020 January to present\n")
+    println("[27] Logout\n")
 
 
     val user_input = readLine("Enter your selection: \n")

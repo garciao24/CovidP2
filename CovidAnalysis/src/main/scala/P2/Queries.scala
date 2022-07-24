@@ -49,14 +49,11 @@ object Queries{
       query()
     }
 
-    /*    - How many cases were confirmed worldwide during the second quarter of 2020?
-          Enter your query here
-     */
+
     def query(): Unit={
-      session.spark.sql("SELECT ObservationDate, COUNT(confirmed) AS Total_confirmed FROM covid_data where ObservationDate BETWEEN '04/01/2020' AND '06/30/2020' " +
-        "GROUP BY ObservationDate ORDER BY ObservationDate ASC").show()
 
       /*    - How many people were recovered worldwide by the last quarter of 2020
+
             Enter your query here
        */
       session.spark.sql("SELECT ObservationDate, COUNT(recovered) AS Total_Recovered FROM covid_data where ObservationDate BETWEEN '10/01/2020' AND '12/31/2020' " +
@@ -64,26 +61,16 @@ object Queries{
 
 
       /*    - What are the top 10 cities with number of deaths in the US?
+
             Enter your query here
        */
       session.spark.sql("SELECT province_state, COUNT(deaths) AS Total_Deaths FROM cities c JOIN covid_data cov ON (c.sno = cov.sno) JOIN countries co " +
         "ON (c.sno = co.sno) WHERE co.region_country = 'US' GROUP BY province_state ORDER BY Total_Deaths DESC LIMIT 10").show()
 
-      /*    - What are the top 10 cities with least COVID cases in the US?
-            Enter your query here
-       */
 
-      session.spark.sql("SELECT province_state, COUNT(confirmed) AS Total_Cases FROM cities c JOIN covid_data cov ON (c.sno = cov.sno) JOIN countries co " +
-        "ON (c.sno = co.sno) WHERE co.region_country = 'US' GROUP BY province_state " +
-        "HAVING COUNT(confirmed) > 50 ORDER BY Total_Cases ASC LIMIT 10").show()
-
-      /*    - What are the countries with most covid cases during the pandemic?
-            Enter your query here
-       */
-      session.spark.sql("SELECT region_country, COUNT(confirmed) AS Cases_Confirmed FROM countries co JOIN covid_data cov ON(co.sno = cov.sno) " +
-        "GROUP BY region_country HAVING COUNT(confirmed) > 200 ORDER BY Cases_confirmed DESC").show()
 
       /*    - What are the countries with most recovered covid cases during the pandemic?
+
             Enter your query here
        */
       session.spark.sql("SELECT region_country, COUNT(recovered) AS Total_Recovered FROM countries co JOIN covid_data cov ON(co.sno = cov.sno) " +
