@@ -1,7 +1,7 @@
 package P2
 
 import P2.Main.session
-import P2.P2tempviews.df4
+import P2.P2tempviews.{df4, df6}
 import org.apache.spark.sql.functions.{col, desc}
 
 object CovidP2Thuva {
@@ -11,7 +11,7 @@ object CovidP2Thuva {
   
   def UsDeathDataByMonth(v1:Boolean,v2:Boolean): Unit = {
     val MonthDayCount = Array(0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
-    println("Loading Sum of  Covid Death Data By Month wise ...........")
+    session.logger.info("Loading Sum of Covid Death Data By Month wise ...........")
     //var df0 = session.spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_deaths_US.csv")
 
     var df0 = df4.withColumnRenamed("Province_state", "USState")
@@ -63,8 +63,8 @@ object CovidP2Thuva {
   }
 
   def DeathVSRecoverPercentage(v1:Boolean,v2:Boolean): Unit = {
-    val df1 = session.spark.read.option("header", "true").csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
-    df1.createOrReplaceTempView("CovidWorld")
+    //val df6 = session.spark.read.option("header", "true").csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")//////
+    df6.createOrReplaceTempView("CovidWorld")
     //println("Top 10 Countries which has best Recovery Percentage against Confirmed Cases..")
     val fin = session.spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Recovered) AS TotalRecovered ,ROUND((SUM(Recovered) * 100 )/SUM(Confirmed))  as RecoverPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  RecoverPercentage DESC").toDF()
 
@@ -77,19 +77,21 @@ object CovidP2Thuva {
       println("Top 10 Countries which has best Recovery Percentage against Confirmed Cases..")
       fin.show(10)
       println("_____________________________________________________________________________")
-      println("Top 10 Counries which has worst Death Percentage against Confirmed Cases..")
+      println("Top 10 Countries which has worst Death Percentage against Confirmed Cases..")
       fin2.show(10)
     }
     if(v2){
       file.outputJson("DeathVSRecoverPercentage",fin)
       file.outputcsv("DeathVSRecoverPercentage",fin)
+      file.outputJson("DeathVSRecoverPercentage",fin2)
+      file.outputcsv("DeathVSRecoverPercentage",fin2)
     }
   }
 
 
 
   def TopDays(v1:Boolean,v2:Boolean): Unit = {
-    println("Load top 20 Days Recorded highest Confirmed Cases between 2020 -2021")
+    session.logger.info("Load top 20 Days Recorded highest Confirmed Cases between 2020 -2021")
 
     val df1 = session.spark.read.option("header", "true").csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
     df1.createOrReplaceTempView("CovidCases")

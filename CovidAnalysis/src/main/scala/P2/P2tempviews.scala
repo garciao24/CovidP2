@@ -39,18 +39,17 @@ object P2tempviews {
     //session.spark.sql("SELECT * FROM CovDeathsUSImp;").show()
 
     df5 = session.spark.read.format("csv").option("header", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_recovered.csv")
-    df3.createOrReplaceTempView("CovRecImp")
+    df5.createOrReplaceTempView("CovRecImp")
 
     //session.spark.sql("SELECT * FROM CovRecImp;").show()
 
     df6 = session.spark.read.format("csv").option("header", "true").load("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
-    df4.createOrReplaceTempView("CovRecImp")
+    df6.createOrReplaceTempView("CovDataImp")
 
     //session.spark.sql("SELECT * FROM CovDeathsUSImp;").show()
 
     // ------------------------------------------------------------- Move Temp Views Into Spark Warehouse -------------------------------------------------------------
 
-    println("this is after loading tables")
     df1.write.mode("overwrite").saveAsTable("CovCon")
     //session.spark.sql("SELECT * FROM CovCon").show()
 
