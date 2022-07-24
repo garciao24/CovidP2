@@ -28,10 +28,18 @@ object P2functions {
     println(Console.GREEN + "Status----------------->Connected" + Console.RESET)
   }
   //----------------------------------------------------------------------------------------------------- Total confirmed by state.
-  def totalbystates()={
+  def totalbystates(v1:Boolean,v2:Boolean)={
     println("Total confirmed by state.")
     export1 = spark.sql("SELECT Province_State, SUM(`5/1/21`) AS DatedTotal " +
       "FROM CovConUS GROUP BY Province_State ORDER BY DatedTotal DESC")//.show(10000,false)
+
+    if(v1){
+      export1.show(200)
+    }
+    if(v2){
+      file.outputJson("TotalUSStateCases",export1)
+      file.outputcsv("TotalUSStateCases",export1)
+    }
   }
   //----------------------------------------------------------------------------------------------------- Input two dates get new cases.
   def datedchange()={
@@ -50,7 +58,7 @@ object P2functions {
       "FROM CovConUS GROUP BY Province_State ORDER BY Ratio DESC").show(10000,false)
   }
   //----------------------------------------------------------------------------------------------------- Total new confirmed in a month.
-  def monthrange() = {
+  def monthrange(v1:Boolean,v2:Boolean) = {
     var mnth = 4  //scala.io.StdIn.readLine()
     var yr = "21" //scala.io.StdIn.readLine()
     var monthimp = f"'$mnth/"
@@ -93,9 +101,17 @@ object P2functions {
     //println(finalimpstring)
     //println(listofdates.length)
 
+    if(v1){
+      export2.show(200)
+    }
+    if(v2){
+      file.outputJson("SpecificMonthCasesByState",export2)
+      file.outputcsv("SpecificMonthCasesByState",export2)
+    }
+
   }
 
-  def daily(): Unit ={ // Subtract current day minus previous day, for first day just print that day. Show all deaths worldwide by country.
+  def daily(v1:Boolean,v2:Boolean): Unit ={ // Subtract current day minus previous day, for first day just print that day. Show all deaths worldwide by country.
     var chosendf = "CovDeaths" //scala.io.StdIn.readLine()
     var currdf = spark.sql(f"SELECT * FROM $chosendf")
     var ColumnNames=currdf.columns
@@ -122,23 +138,27 @@ object P2functions {
     export3 = spark.sql(f"SELECT `Country/Region`, $finalimpstring " +
       "FROM CovDeaths GROUP BY `Country/Region` ORDER BY `Country/Region` DESC")//.show(10000,false)
 
+    if(v1){
+      export3.show(200)
+    }
+    if(v2){
+      file.outputJson("DailyNewDeathsByCountry",export3)
+      file.outputcsv("DailyNewDeathsByCountry",export3)
+    }
+
   }
 
   //connectlink()park
   //datedchange()
   //totalday()
 
-  totalbystates() //<------------------ This one for Project 2
-  file.outputJson("TotalUSStateCases",export1)
-  file.outputcsv("TotalUSStateCases",export1)
+  totalbystates(true,false) //<------------------ This one for Project 2
 
-  monthrange() //<------------------ This one for Project 2
-  file.outputJson("SpecificMonthCasesByState",export2)
-  file.outputcsv("SpecificMonthCasesByState",export2)
+  monthrange(true,false) //<------------------ This one for Project 2
 
-  daily() //<------------------ This one for Project 2
-  file.outputJson("DailyNewDeathsByCountry",export3)
-  file.outputcsv("DailyNewDeathsByCountry",export3)
+
+  daily(true,false) //<------------------ This one for Project 2
+
 
 
   spark.sql("SHOW DATABASES").show()
