@@ -17,6 +17,7 @@ object Main {
 
     println("-----------------------------------------")
     //P2functions.connectlink()
+    P2queries.queryMenu()
 
 
 
