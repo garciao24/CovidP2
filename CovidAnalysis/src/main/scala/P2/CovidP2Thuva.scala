@@ -2,18 +2,19 @@ package P2
 
 import P2.Main.session
 import P2.P2tempviews.df4
-import org.apache.spark.sql.functions.{col, desc, round}
+import org.apache.spark.sql.functions.{col, desc}
 
 object CovidP2Thuva {
   // 1. Total Death count of USA states by Month wise - UsDeathDataByMonth()
   // 2. Find best 10 recovery rates countries and worst 10 Death rates countries  - DeathVSRecoverPercentage()
   // 3. Which top 20 dates Recorded highest Confirmed ccases -  TopDays()
   
-  def UsDeathDataByMonth(): Unit = {
+  def UsDeathDataByMonth(v1:Boolean,v2:Boolean): Unit = {
     val MonthDayCount = Array(0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
     println("Loading Sum of  Covid Death Data By Month wise ...........")
-    var df0 = session.spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_deaths_US.csv")
-     df0 = df0.withColumnRenamed("Province_state", "USState")
+    //var df0 = session.spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_deaths_US.csv")
+
+    var df0 = df4.withColumnRenamed("Province_state", "USState")
     var LastDayOfMonth = ""
     var Month = 1
     var year = 20
@@ -52,13 +53,16 @@ object CovidP2Thuva {
       .select(TableColumn: _*)
       .orderBy(desc("Population"))
 
-    df0.show(false)
-
-    file.outputJson("USDeathSumByMonth", df0)
-
+    if(v1){
+      df0.show(false)
+    }
+    if(v2){
+      file.outputJson("USDeathSumByMonth", df0)
+      file.outputcsv("USDeathSumByMonth", df0)
+    }
   }
 
-  def DeathVSRecoverPercentage(): Unit = {
+  def DeathVSRecoverPercentage(v1:Boolean,v2:Boolean): Unit = {
     val df1 = session.spark.read.option("header", "true").csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
     df1.createOrReplaceTempView("CovidWorld")
     println("Top 10 Countries which has best Recovery Percentage against Confirmed Cases..")
@@ -67,13 +71,20 @@ object CovidP2Thuva {
     println("_____________________________________________________________________________")
     println("Top 10 Counries which has worst Death Percentage against Confirmed Cases..")
 
-    session.spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Deaths) AS TotalDeaths ,ROUND((SUM(Deaths) * 100 )/SUM(Confirmed))  as DeathPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  DeathPercentage DESC").show(10)
+    val fin = session.spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Deaths) AS TotalDeaths ,ROUND((SUM(Deaths) * 100 )/SUM(Confirmed))  as DeathPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  DeathPercentage DESC").toDF()
 
+    if(v1){
+      fin.show()
+    }
+    if(v2){
+      file.outputJson("DeathVSRecoverPercentage",fin)
+      file.outputcsv("DeathVSRecoverPercentage",fin)
+    }
   }
 
 
 
-  def TopDays(): Unit = {
+  def TopDays(v1:Boolean,v2:Boolean): Unit = {
     println("Load top 20 Days Recorded highest Confirmed Cases between 2020 -2021")
 
     val df1 = session.spark.read.option("header", "true").csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
@@ -94,16 +105,24 @@ object CovidP2Thuva {
       " FROM Query2" +
       " ORDER BY CombineDailyCases ASC").createTempView("Query3") //Check Previus Values
 
-    session.spark.sql(" SELECT ObservationDate as Date, CombineDailyCases - IFNULL(PreviousDailyCases,0) AS NewCases" +
+    val fin = session.spark.sql(" SELECT ObservationDate as Date, CombineDailyCases - IFNULL(PreviousDailyCases,0) AS NewCases" +
       " FROM Query3" +
-      " ORDER BY NewCases DESC").show(20)
+      " ORDER BY NewCases DESC").toDF()
+
+    if(v1){
+      fin.show()
+    }
+    if(v2){
+      file.outputJson("TopDays",fin)
+      file.outputcsv("TopDays",fin)
+    }
   }
 
 
   def run():Unit = {
-    UsDeathDataByMonth()
-    DeathVSRecoverPercentage()
-    TopDays()
+//    UsDeathDataByMonth()
+//    DeathVSRecoverPercentage()
+//    TopDays()
 
   }
 

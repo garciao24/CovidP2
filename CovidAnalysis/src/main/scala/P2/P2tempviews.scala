@@ -16,7 +16,7 @@ object P2tempviews {
   def CreateTemp():Unit= {
     /*Anything above this has been mostly unchanged (generalized)*/
 
-    BasicCleaning.runOscar()
+
     // ------------------------------------------------------------- Create Temp Views From HDFS -------------------------------------------------------------
     df1 = session.spark.read.format("csv").option("header", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_confirmed.csv") // File location in hdfs
     df1.createOrReplaceTempView("CovConImp")
@@ -50,6 +50,7 @@ object P2tempviews {
 
     // ------------------------------------------------------------- Move Temp Views Into Spark Warehouse -------------------------------------------------------------
 
+    println("this is after loading tables")
     df1.write.mode("overwrite").saveAsTable("CovCon")
     session.spark.sql("SELECT * FROM CovCon").show()
 
@@ -72,6 +73,9 @@ object P2tempviews {
     session.spark.sql("SHOW DATABASES").show()
     session.spark.sql("SHOW TABLES").show()
 
+
+    BasicCleaning.runOscar()
+    Queries.createTablesE()
   }
 
 }
