@@ -4,9 +4,7 @@ import P2.Main.session
 
 //Current path is C:\inputs\inputproject2
 object P2functions {
-  def main(args: Array[String]): Unit = {
-
-  } //Functions must be outside of the main function.
+   //Functions must be outside of the main function.
 
   //===================================================================================================== Connects to file.
   def connectlink(): Unit = {

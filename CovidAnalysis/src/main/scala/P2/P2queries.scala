@@ -1,7 +1,7 @@
 package P2
 
 import P2.Main.session
-import P2.P2tempviews.{df2, df4}
+import P2.P2tempviews.{df1, df2, df4, df5}
 
 import scala.io.StdIn.readLine
 
@@ -110,9 +110,11 @@ object P2queries{
 
   def query1(): Unit = {
     println("Enter the country name: ")
-    val country = readLine().toLowerCase.capitalize
-    session.spark.sql(s"SELECT * FROM <tablename with confirmed data> WHERE country = '$country'").show() // need to enter the table name
-    queryMenu()
+//    val country = readLine().toLowerCase.capitalize
+//    session.spark.sql(s"SELECT * FROM <tablename with confirmed data> WHERE country = '$country'").show() // need to enter the table name
+//    queryMenu()
+    val yy = df1.groupBy("Country/Region").sum().withColumnRenamed("sum(5/2/21)","Confirmed").select("Country/Region","Confirmed")
+    yy.show()
   }
 
   def query2(): Unit = {
@@ -147,10 +149,13 @@ object P2queries{
   }
 
   def query7(): Unit = {
-    println("Enter your country name: ")
-    val country = readLine().toLowerCase.capitalize
-    session.spark.sql(s"SELECT * FROM <tablename with recovered data> WHERE country = '$country'").show() //need to enter table name
-    queryMenu()
+    //println("Enter your country name: ")
+//    val country = readLine().toLowerCase.capitalize
+//    session.spark.sql(s"SELECT * FROM <tablename with recovered data> WHERE country = '$country'").show() //need to enter table name
+//    queryMenu()
+val dd = df5.groupBy("Country/Region").sum().withColumnRenamed("sum(5/2/21)","Recovered").select("Country/Region","Recovered")
+
+    dd.show()
   }
 
   def query8(): Unit ={

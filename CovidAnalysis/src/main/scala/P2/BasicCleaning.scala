@@ -20,27 +20,34 @@ object BasicCleaning {
 
 
 
-   q1()
+   //q1()
    session.logger.info("getting deaths by age group")
-   q2()
+   //q2()
    session.logger.info("getting deaths per month from 2020 January to present")
-   q3()
+   //q3()
 
    //q4()
  }
 
-  def q1():Unit={
+  def q1(v1:Boolean,v2:Boolean):Unit={
     session.logger.info("Extracting data")
     val df1 = df.select("State","COVID-19 Deaths")
       .filter(df("Sex") === "All Sexes" && df("Group") === "By Total" &&
         df("Age Group") === "All Ages" &&
         df("State") =!= "United States")
 
-    file.outputJson("totalUSA_State",df1)
-    file.outputcsv("totalUSA_State",df1)
+    if(v1){
+      df1.show()
+    }
+    if(v2){
+      file.outputJson("totalUSA_State",df1)
+      file.outputcsv("totalUSA_State",df1)
+    }
+
+
   }
 
-  def q2():Unit={
+  def q2(v1:Boolean,v2:Boolean):Unit={
 
     session.logger.info("Extracting data")
     val df2 = df.select("Age Group","COVID-19 Deaths")
@@ -48,11 +55,18 @@ object BasicCleaning {
         df("State") === "United States" && df("Age Group") =!= "All Ages"
         && df("Age Group") =!= "0-17 years")
 
-    file.outputJson("death_by_ageGroup",df2)
-    file.outputcsv("death_by_ageGroup",df2)
+
+    if(v1){
+      df2.show()
+    }
+    if(v2){
+      file.outputJson("death_by_ageGroup",df2)
+      file.outputcsv("death_by_ageGroup",df2)
+    }
+
   }
 
-  def q3():Unit={
+  def q3(v1:Boolean,v2:Boolean):Unit={
     val selectCase = udf((tc: String) =>
       if (Seq("1").contains(tc)) "January"
       else if (Seq("2").contains(tc)) "February"
@@ -82,10 +96,13 @@ object BasicCleaning {
     val fin = df3.filter(df3("Date") =!= "2022_7").join(temp, df3("Date") === temp("Date_month"), "left").select("Date","Total Covid Deaths","Avg_temp(F*)")
 
     //fin.show(50)
-
+    if(v1){
+      fin.show()
+    }
+    if(v2){
       file.outputJson("death_by_month",fin)
       file.outputcsv("death_by_month",fin)
-
+    }
 
 
     }
@@ -107,14 +124,14 @@ object BasicCleaning {
     val yy = df1.groupBy("Country/Region").sum().withColumnRenamed("sum(5/2/21)","Confirmed").select("Country/Region","Confirmed")
 
     yy.show()
-    file.outputJson("contries_Confirmed",yy)
+    //file.outputJson("contries_Confirmed",yy)
 //
 //
 //
     val dd = df5.groupBy("Country/Region").sum().withColumnRenamed("sum(5/2/21)","Recovered").select("Country/Region","Recovered")
 
     dd.show()
-    file.outputJson("contries_Recovered",dd)
+    //file.outputJson("contries_Recovered",dd)
 
 
 
