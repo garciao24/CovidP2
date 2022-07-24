@@ -7,9 +7,9 @@ import org.apache.spark.sql.functions.{col, desc, round}
 object CovidP2Thuva {
   def UsDeathDataByMonth(): Unit = {
     val MonthDayCount = Array(0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
-    println("Loading Sum of  Covid Death Data By Monthwise ...........")
-    //var df0 = session.spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_deaths_US.csv")
-    var df0 = df4.withColumnRenamed("Province_state", "USState")
+    println("Loading Sum of  Covid Death Data By Month wise ...........")
+    var df0 = session.spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_deaths_US.csv")
+     df0 = df0.withColumnRenamed("Province_state", "USState")
     var LastDayOfMonth = ""
     var Month = 1
     var year = 20
@@ -57,7 +57,7 @@ object CovidP2Thuva {
   def DeathVSRecoverPercentage(): Unit = {
     val df1 = session.spark.read.option("header", "true").csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
     df1.createOrReplaceTempView("CovidWorld")
-    println("Top 10 Counries which has best Recovery Percentage against Confirmed Cases..")
+    println("Top 10 Countries which has best Recovery Percentage against Confirmed Cases..")
     session.spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Recovered) AS TotalRecovered ,ROUND((SUM(Recovered) * 100 )/SUM(Confirmed))  as RecoverPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  RecoverPercentage DESC").show(10)
 
     println("_____________________________________________________________________________")
@@ -67,28 +67,10 @@ object CovidP2Thuva {
 
   }
 
-  def AverageDeathVSPopulation(): Unit = {
-    println("Loading Death Percentage against Population in USA States  ")
-    var df = session.spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_deaths_US.csv")
-    df = df.withColumnRenamed("Admin2", "County")
-      .withColumnRenamed("Province_state", "USState")
-      .withColumnRenamed("5/2/21", "Deaths")
-      .withColumn("Population", col("Population").cast("int"))
-      .withColumn("Deaths", col("Deaths").cast("int"))
-    df = df.select("USState", "Population", "Deaths")
-      .orderBy("Deaths")
-    df = df.groupBy(col("USState"))
-      .sum("Population", "Deaths")
-    df = df.withColumn("Divide", col("sum(Deaths)") / col("sum(Population)"))
-      .withColumn("PercentageOfDeath", round(col("Divide") * 100, 2))
-      .drop("divide")
 
-    df.orderBy(desc("PercentageOfDeath")).show()
-    file.outputJson("AverageDeathVSPopulation", df.limit(50))
-  }
 
   def TopDays(): Unit = {
-    println("Load top 20 Days receorded highest Confiremed Cases between 2020 -2021")
+    println("Load top 20 Days Recorded highest Confirmed Cases between 2020 -2021")
 
     val df1 = session.spark.read.option("header", "true").csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
     df1.createOrReplaceTempView("CovidCases")
@@ -112,10 +94,12 @@ object CovidP2Thuva {
       " FROM Query3" +
       " ORDER BY NewCases DESC").show(20)
   }
+
+
   def run():Unit = {
     UsDeathDataByMonth()
     DeathVSRecoverPercentage()
-    AverageDeathVSPopulation()
+
     TopDays()
 
   }
