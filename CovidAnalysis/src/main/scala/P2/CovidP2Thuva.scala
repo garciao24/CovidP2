@@ -65,16 +65,20 @@ object CovidP2Thuva {
   def DeathVSRecoverPercentage(v1:Boolean,v2:Boolean): Unit = {
     val df1 = session.spark.read.option("header", "true").csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
     df1.createOrReplaceTempView("CovidWorld")
-    println("Top 10 Countries which has best Recovery Percentage against Confirmed Cases..")
-    session.spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Recovered) AS TotalRecovered ,ROUND((SUM(Recovered) * 100 )/SUM(Confirmed))  as RecoverPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  RecoverPercentage DESC").show(10)
+    //println("Top 10 Countries which has best Recovery Percentage against Confirmed Cases..")
+    val fin = session.spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Recovered) AS TotalRecovered ,ROUND((SUM(Recovered) * 100 )/SUM(Confirmed))  as RecoverPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  RecoverPercentage DESC").toDF()
 
-    println("_____________________________________________________________________________")
-    println("Top 10 Counries which has worst Death Percentage against Confirmed Cases..")
+    //println("_____________________________________________________________________________")
+    //println("Top 10 Counries which has worst Death Percentage against Confirmed Cases..")
 
-    val fin = session.spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Deaths) AS TotalDeaths ,ROUND((SUM(Deaths) * 100 )/SUM(Confirmed))  as DeathPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  DeathPercentage DESC").toDF()
+    val fin2 = session.spark.sql("SELECT  `Country/Region` AS Country, SUM(Confirmed) AS TotalConfirmed,SUM(Deaths) AS TotalDeaths ,ROUND((SUM(Deaths) * 100 )/SUM(Confirmed))  as DeathPercentage FROM CovidWorld GROUP BY  `Country/Region` order by  DeathPercentage DESC").toDF()
 
     if(v1){
-      fin.show()
+      println("Top 10 Countries which has best Recovery Percentage against Confirmed Cases..")
+      fin.show(10)
+      println("_____________________________________________________________________________")
+      println("Top 10 Counries which has worst Death Percentage against Confirmed Cases..")
+      fin2.show(10)
     }
     if(v2){
       file.outputJson("DeathVSRecoverPercentage",fin)

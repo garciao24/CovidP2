@@ -45,7 +45,7 @@ object P2queries{
 
       }
       case "4" => {
-        
+
       }
       case "5" => {
         println("Logging out")

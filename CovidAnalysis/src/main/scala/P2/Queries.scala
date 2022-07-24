@@ -25,7 +25,7 @@ object Queries{
         .withColumn("Recovered", col("Recovered").cast("int"))
         )
 
-      dfCovid_data.show()
+      //dfCovid_data.show()
       dfCovid_data.createOrReplaceTempView("covid_view")
       dfCovid_data.repartition(10).write.mode("overwrite").save("hdfs://localhost:9000/user/hive/warehouse/new_covid_19_data.parquet")
       val parquetfiledf = session.spark.read.parquet("hdfs://localhost:9000/user/hive/warehouse/new_covid_19_data.parquet")

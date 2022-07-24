@@ -23,8 +23,9 @@ object Main {
     //BasicCleaning.runOscar()
     //CovidP2Thuva.run()
 
-    export()
     println("-----------------------------------------")
+    export()
+
     //P2functions.connectlink()
     //P2queries.queryMenu()
 
