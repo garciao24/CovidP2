@@ -98,18 +98,18 @@ object CovidP2Thuva {
 
     session.spark.sql(" SELECT ObservationDate , `Province/State`, `Country/Region`, max(Confirmed) AS MaxCases " +
       " FROM CovidCases " +
-      " GROUP BY ObservationDate,`Country/Region`,`Province/State` ").createTempView("Query1")
+      " GROUP BY ObservationDate,`Country/Region`,`Province/State` ").createOrReplaceTempView("Query1")
 
     session.spark.sql(" SELECT ObservationDate, FLOOR(sum(MaxCases)) AS CombineDailyCases" +
       " FROM Query1" +
       " GROUP BY ObservationDate" +
-      " ORDER BY CombineDailyCases ASC").createTempView("Query2") // Sum Daily Cases by Date wise
+      " ORDER BY CombineDailyCases ASC").createOrReplaceTempView("Query2") // Sum Daily Cases by Date wise
 
     session.spark.sql(" SELECT ObservationDate, CombineDailyCases, " +
       " LAG(CombineDailyCases,1) OVER(" +
       " ORDER BY CombineDailyCases ASC) AS PreviousDailyCases" +
       " FROM Query2" +
-      " ORDER BY CombineDailyCases ASC").createTempView("Query3") //Check Previus Values
+      " ORDER BY CombineDailyCases ASC").createOrReplaceTempView("Query3") //Check Previus Values
 
     val fin = session.spark.sql(" SELECT ObservationDate as Date, CombineDailyCases - IFNULL(PreviousDailyCases,0) AS NewCases" +
       " FROM Query3" +
