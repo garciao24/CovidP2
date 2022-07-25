@@ -20,7 +20,7 @@ object P2queries{
   val df = df4.drop("Combined_Key")
   df.createOrReplaceTempView("CovDeathUS")
   //df4.show()
-  queryMenu()
+  //queryMenu()
 
 
   //the query menu is where the user can select what they want to do
@@ -61,7 +61,6 @@ object P2queries{
   def query1(v1:Boolean,v2:Boolean): Unit = {
     println("Showing Results for top 20 cities")
     val fin = session.spark.sql("SELECT Admin2 AS City, Province_State AS State, SUM(`5/2/21`) AS Total_Confirmed FROM CovConUS GROUP BY City, State ORDER BY Total_Confirmed DESC").toDF()
-    //queryMenu()
     if(v1){
       fin.show(20)
     }
@@ -72,12 +71,8 @@ object P2queries{
   }
 
   def query2(v1:Boolean,v2:Boolean): Unit ={
-    println("Enter your state: ")
-    val state = readLine()//.toLowerCase.capitalize
-    //spark.sql(s"SELECT SUM(`5/2/21`) AS Total_Confirmed FROM CovConUS WHERE Province_State = '$state'").show() //Shows the total confirmed
-    //spark.sql(s"SELECT SUM(Population) AS Total_Population FROM CovDeathUS WHERE Province_State = '$state'").show() //Shows the total population
-    val fin = session.spark.sql(s"SELECT CovConUS.Province_State AS State, SUM(CovConUS.`5/2/21`)*100/SUM(CovDeathUS.Population) AS Covid_Confirmed_Percentage FROM CovConUS, CovDeathUS WHERE CovConUS.Province_State = '$state' AND CovDeathUS.Province_State = '$state' Group BY State").toDF()
-    //queryMenu()
+    println("Showing Results for top 20 states")
+    val fin = session.spark.sql("SELECT c.Province_State AS State, Round(SUM(c.`5/2/21`)*100/sum(d.Population),2) AS Covid_Confirmed_Percent FROM CovConUS c JOIN CovDeathUS d ON c.UID = d.UID Group By State Order By Covid_Confirmed_Percent DESC").toDF()
     if(v1){
       fin.show(20)
     }
@@ -88,13 +83,10 @@ object P2queries{
   }
 
   def query3(v1:Boolean,v2:Boolean): Unit = {
-    println("Enter your state: ")
-    val state = readLine()//.toLowerCase.capitalize
+    println("Showing Results for top 20 states with the highest case fatality rate")
     //formula for case fatality rate = (total death/total confirmed) * 100
-    //spark.sql(s"SELECT SUM(`5/2/21`) AS Total_Death FROM CovDeathUS WHERE Province_State = '$state'").show() //shows total death
-    //spark.sql(s"SELECT SUM(`5/2/21`) AS Total_Confirmed FROM CovConUS WHERE Province_State = '$state'").show() //shows total confirmed
-    val fin = session.spark.sql(s"SELECT CovDeathUS.Province_State AS State, SUM(CovDeathUS.`5/2/21`)/SUM(CovConUS.`5/2/21`)*100 AS Case_Fatality_Rate FROM CovConUS, CovDeathUS WHERE CovDeathUS.Province_State = '$state' AND CovConUS.Province_State = '$state' GROUP BY State").toDF()
-    //queryMenu()
+    val fin = session.spark.sql("SELECT d.Province_State AS State, ROUND((SUM(d.`5/2/21`)/SUM(c.`5/2/21`)*100),2) AS Case_Fatality_Rate FROM CovDeathUS d JOIN CovConUS c ON d.UID = c.UID GROUP BY State ORDER BY Case_Fatality_Rate DESC").toDF()
+
     if(v1){
       fin.show(20)
     }
@@ -105,10 +97,9 @@ object P2queries{
   }
 
   def query4(v1:Boolean,v2:Boolean): Unit = {
-    println("Showing results for the top 20 states with the highest case fatality rates")
+    println("Showing results for the top 20 states with the lowest case fatality rates")
     //formula for case fatality rate = (total death/total confirmed) * 100
-    val fin = session.spark.sql("SELECT CovDeathUS.Province_State AS State, SUM(CovDeathUS.`5/2/21`)/SUM(CovConUS.`5/2/21`)*100 AS Case_Fatality_Rate FROM CovConUS, CovDeathUS GROUP BY State ORDER BY Case_Fatality_Rate DESC").toDF()
-    //queryMenu()
+    val fin = session.spark.sql("SELECT d.Province_State AS State, ROUND((SUM(d.`5/2/21`)/SUM(c.`5/2/21`)*100),2) AS Case_Fatality_Rate FROM CovDeathUS d JOIN CovConUS c ON d.UID = c.UID GROUP BY State ORDER BY Case_Fatality_Rate").toDF()
     if(v1){
       fin.show(20)
     }

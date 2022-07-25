@@ -81,10 +81,10 @@ object CovidP2Thuva {
       fin2.show(10)
     }
     if(v2){
-      file.outputJson("DeathVSRecoverPercentage",fin)
-      file.outputcsv("DeathVSRecoverPercentage",fin)
-      file.outputJson("DeathVSRecoverPercentage",fin2)
-      file.outputcsv("DeathVSRecoverPercentage",fin2)
+      file.outputJson("RecoverPercentage",fin)
+      file.outputcsv("RecoverPercentage",fin)
+      file.outputJson("DeathPercentage",fin2)
+      file.outputcsv("DeathPercentage",fin2)
     }
   }
 
