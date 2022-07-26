@@ -42,9 +42,9 @@
 - Visualization Programs: Apache Zeppelin
 
 ### Extra Data Used
-## Provisional COVID-19 Deaths by Sex and Age
+#### Provisional COVID-19 Deaths by Sex and Age
 - https://data.cdc.gov/NCHS/Provisional-COVID-19-Deaths-by-Sex-and-Age/9bhg-hcku
-## Average monthly temperature in the U.S. from January 2019 to May 2022 (in Fahrenheit) 
+### Average monthly temperature in the U.S. from January 2019 to May 2022 (in Fahrenheit) 
 - https://www.statista.com/statistics/513628/monthly-average-temperature-in-the-us-fahrenheit/
 
 ### Collaborators:
