@@ -1,6 +1,6 @@
 package P2
 
-import P2.Main.session
+import P2.Main.{bucket, session}
 import org.apache.spark.sql.DataFrame
 
 object P2tempviews {
@@ -17,33 +17,34 @@ object P2tempviews {
     /*Anything above this has been mostly unchanged (generalized)*/
 
 
+
     // ------------------------------------------------------------- Create Temp Views From HDFS -------------------------------------------------------------
-    df1 = session.spark.read.format("csv").option("header", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_confirmed.csv") // File location in hdfs
+    df1 = session.spark.read.format("csv").option("header", "true").load(s"s3a://$bucket/time_series_covid_19_confirmed.csv") // File location in hdfs
     df1.createOrReplaceTempView("CovConImp")
 
     //session.spark.sql("SELECT * FROM CovConImp;").show()
 
-    df2 = session.spark.read.format("csv").option("header", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_confirmed_US.csv")
+    df2 = session.spark.read.format("csv").option("header", "true").load(s"s3a://$bucket/time_series_covid_19_confirmed_US.csv")
     df2.createOrReplaceTempView("CovConUSImp")
 
     //session.spark.sql("SELECT * FROM CovConUSImp;").show()
 
-    df3 = session.spark.read.format("csv").option("header", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_deaths.csv")
+    df3 = session.spark.read.format("csv").option("header", "true").load(s"s3a://$bucket/time_series_covid_19_deaths.csv")
     df3.createOrReplaceTempView("CovDeathsImp")
 
     //session.spark.sql("SELECT * FROM CovDeathsImp;").show()
 
-    df4 = session.spark.read.format("csv").option("header", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_deaths_US.csv")
+    df4 = session.spark.read.format("csv").option("header", "true").load(s"s3a://$bucket/time_series_covid_19_deaths_US.csv")
     df4.createOrReplaceTempView("CovDeathsUSImp")
 
     //session.spark.sql("SELECT * FROM CovDeathsUSImp;").show()
 
-    df5 = session.spark.read.format("csv").option("header", "true").load("hdfs://localhost:9000/user/hive/warehouse/time_series_covid_19_recovered.csv")
+    df5 = session.spark.read.format("csv").option("header", "true").load(s"s3a://$bucket/time_series_covid_19_recovered.csv")
     df5.createOrReplaceTempView("CovRecImp")
 
     //session.spark.sql("SELECT * FROM CovRecImp;").show()
 
-    df6 = session.spark.read.format("csv").option("header", "true").load("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
+    df6 = session.spark.read.format("csv").option("header", "true").load(s"s3a://$bucket/covid_19_data.csv")
     df6.createOrReplaceTempView("CovDataImp")
 
     //session.spark.sql("SELECT * FROM CovDeathsUSImp;").show()

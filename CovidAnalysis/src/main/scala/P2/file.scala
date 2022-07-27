@@ -42,13 +42,12 @@ object file {
       .save(outputFileName)
     merge(mergeFindGlob, mergedFileName,fileDel)
     newData.unpersist()
-
   }
 
   def merge(srcPath: String, dstPath: String,delPath: String): Unit =  {
     val hadoopConfig = new Configuration()
     val hdfs = FileSystem.get(hadoopConfig)
-    copyMerge(hdfs, new Path(srcPath), hdfs, new Path(dstPath), true, hadoopConfig)
+    copyMerge(hdfs, new Path(srcPath), hdfs, new Path(dstPath), deleteSource = true, hadoopConfig)
     // the "true" setting deletes the source files once they are merged into the new output
     hdfs.delete(new Path(delPath),true)
   }

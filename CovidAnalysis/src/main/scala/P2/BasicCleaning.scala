@@ -1,6 +1,6 @@
 package P2
 //import P2.Main.my_logger
-import P2.Main.session
+import P2.Main.{bucket, session}
 import P2.P2tempviews.{df1, df5}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
@@ -12,8 +12,8 @@ object BasicCleaning {
 
   def runOscar():Unit={
 
-   df = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"hdfs://localhost:9000/user/hive/warehouse/Provisional_COVID-19_Deaths_by_Sex_and_Age.csv")
-   temp = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"hdfs://localhost:9000/user/hive/warehouse/avg_tmp.csv")
+   df = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"s3a://$bucket/Provisional_COVID-19_Deaths_by_Sex_and_Age.csv")
+   temp = session.spark.read.option("delimiter", ",").option("inferSchema","true").option("header", "true").csv(s"s3a://$bucket/avg_tmp.csv")
 
    session.logger.info("loading from a ---- setting dataframes ")
    session.logger.info("getting all USA Deaths by State")
@@ -40,8 +40,8 @@ object BasicCleaning {
       df1.show()
     }
     if(v2){
-      file.outputJson("totalUSA_State",df1)
-      file.outputcsv("totalUSA_State",df1)
+      file.outputJson("totalUSA1_State",df1)
+      file.outputcsv("totalUSA1_State",df1)
     }
 
 

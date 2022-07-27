@@ -93,8 +93,8 @@ object CovidP2Thuva {
   def TopDays(v1:Boolean,v2:Boolean): Unit = {
     session.logger.info("Load top 20 Days Recorded highest Confirmed Cases between 2020 -2021")
 
-    val df1 = session.spark.read.option("header", "true").csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
-    df1.createOrReplaceTempView("CovidCases")
+//    val df1 = session.spark.read.option("header", "true").csv("hdfs://localhost:9000/user/hive/warehouse/covid_19_data.csv")
+    df6.createOrReplaceTempView("CovidCases")
 
     session.spark.sql(" SELECT ObservationDate , `Province/State`, `Country/Region`, max(Confirmed) AS MaxCases " +
       " FROM CovidCases " +

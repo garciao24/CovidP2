@@ -17,13 +17,13 @@ object P2functions {
     println(Console.GREEN + "Status----------------->Connected" + Console.RESET)
   }
   //----------------------------------------------------------------------------------------------------- Total confirmed by state.
-  def totalbystates(v1:Boolean,v2:Boolean)={
+  def totalbystates(v1:Boolean,v2:Boolean): Unit ={
     session.logger.info("Total confirmed by state.")
     export1 = session.spark.sql("SELECT Province_State, SUM(`5/1/21`) AS DatedTotal " +
       "FROM CovConUS GROUP BY Province_State ORDER BY DatedTotal DESC")//.show(10000,false)
 
     if(v1){
-      export1.show(200)
+      export1.show()
     }
     if(v2){
       file.outputJson("TotalUSStateCases",export1)
@@ -31,7 +31,7 @@ object P2functions {
     }
   }
   //----------------------------------------------------------------------------------------------------- Input two dates get new cases.
-  def datedchange()={
+  def datedchange(): Unit ={
     var initialdate = "`4/30/21`" //scala.io.StdIn.readLine()
     var finaldate = "`5/1/21`"  //scala.io.StdIn.readLine()
     session.logger.info(f"New cases based on new cases from $initialdate to $finaldate")
@@ -40,14 +40,14 @@ object P2functions {
       "FROM CovConUS GROUP BY Province_State ORDER BY NewCases DESC").show(10000,false)
   }
   //----------------------------------------------------------------------------------------------------- Total confirmed in a day.
-  def totalday()= {
+  def totalday(): Unit = {
     var stringeddate = "`5/2/21`" //scala.io.StdIn.readLine()
     println(f"Total for $stringeddate")
     session.spark.sql(f"SELECT Province_State, SUM($stringeddate) AS Ratio " +
       "FROM CovConUS GROUP BY Province_State ORDER BY Ratio DESC").show(10000,false)
   }
   //----------------------------------------------------------------------------------------------------- Total new confirmed in a month.
-  def monthrange(v1:Boolean,v2:Boolean) = {
+  def monthrange(v1:Boolean,v2:Boolean): Unit = {
     var mnth = 4  //scala.io.StdIn.readLine()
     var yr = "21" //scala.io.StdIn.readLine()
     var monthimp = f"'$mnth/"
