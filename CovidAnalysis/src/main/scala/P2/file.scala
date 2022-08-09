@@ -70,10 +70,10 @@ object file {
     val hdfs = FileSystem.get(hadoopConfig)
     copyMerge(hdfs, new Path(srcPath), hdfs, new Path(dstPath), deleteSource = true, hadoopConfig)
     // the "true" setting deletes the source files once they are merged into the new output
-    hdfs.delete(new Path(delPath),true)
+    hdfs.delete(new Path(delPath),true)//deletes the .crc after moving the file
   }
 
-
+//hdfs,source path,hdfs,destination path, delete, conf
   def copyMerge(srcFS: FileSystem, srcDir: Path, dstFS: FileSystem, dstFile: Path, deleteSource: Boolean, conf: Configuration): Boolean = {
 
     if (dstFS.exists(dstFile)) {
@@ -82,13 +82,13 @@ object file {
       dstFS.delete(dstFile,true)
     }
     // Source path is expected to be a directory:
-    if (srcFS.getFileStatus(srcDir).isDirectory) {
+    if (srcFS.getFileStatus(srcDir).isDirectory) {//if the folder exists
 
-      val outputFile = dstFS.create(dstFile)
+      val outputFile = dstFS.create(dstFile)//creates the actual file output stream
       try {
         srcFS
           .listStatus(srcDir)
-          .sortBy(_.getPath.getName)
+          .sortBy(_.getPath.getName)//used to get the actual file from inside the folder
           .collect {
             case status if status.isFile =>
               val inputFile = srcFS.open(status.getPath)
@@ -97,7 +97,7 @@ object file {
           }
       } finally { outputFile.close() }
 
-      if (deleteSource) srcFS.delete(srcDir, true) else true
+      if (deleteSource) srcFS.delete(srcDir, true) else true//deletes the folder if true
     }
     else false
   }
